@@ -1,0 +1,9 @@
+{
+  "model_id": "timbrooks/instruct-pix2pix",
+  "face_ids": ["face_002", "face_005"],
+  "prompts": ["add black sunglasses", "add headphones"],
+  "timestep_indices": [3, 6, 10, 14],
+  "max_layers": 36,
+  "canonical_only": false,
+  "notes": "Default MAT auto-manifest uses available variants per face for development same-identity pairs. Replace with richer identity data for stronger conclusions."
+}

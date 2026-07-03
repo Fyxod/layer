@@ -1,0 +1,7 @@
+{
+  "model_id": "timbrooks/instruct-pix2pix",
+  "prompt": "add black sunglasses",
+  "timestep_index": 6,
+  "face_ids": ["face_002", "face_005"],
+  "notes": "Milestone 1 inventory only. No geometry attack is run."
+}

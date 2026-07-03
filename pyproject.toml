@@ -1,0 +1,8 @@
+[project]
+name = "layer"
+version = "0.1.0"
+description = "InstructPix2Pix identity-layer discovery scans"
+requires-python = ">=3.10"
+
+[tool.ruff]
+line-length = 120
