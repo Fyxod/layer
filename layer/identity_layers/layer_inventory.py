@@ -160,10 +160,14 @@ def run_inventory(
         if row["module_path"] == "vae_image_latent":
             merged.update(
                 {
+                    "output_type": "torch.Tensor",
                     "output_shape": list(vae_latent.shape),
+                    "dtype": str(vae_latent.dtype),
+                    "device": str(vae_latent.device),
                     "output_dtype": str(vae_latent.dtype),
                     "output_device": str(vae_latent.device),
                     "number_of_elements": int(vae_latent.numel()),
+                    "estimated_memory": float(vae_latent.numel() * vae_latent.element_size() / (1024**2)),
                     "estimated_memory_mb": float(vae_latent.numel() * vae_latent.element_size() / (1024**2)),
                     "hook_error": None,
                 }
@@ -172,10 +176,14 @@ def run_inventory(
             rec = shape_map.get(row["module_path"], {})
             merged.update(
                 {
+                    "output_type": "torch.Tensor" if rec.get("output_shape") else None,
                     "output_shape": rec.get("output_shape"),
+                    "dtype": rec.get("output_dtype"),
+                    "device": rec.get("output_device"),
                     "output_dtype": rec.get("output_dtype"),
                     "output_device": rec.get("output_device"),
                     "number_of_elements": rec.get("number_of_elements"),
+                    "estimated_memory": rec.get("estimated_memory_mb"),
                     "estimated_memory_mb": rec.get("estimated_memory_mb"),
                     "hook_error": rec.get("error"),
                 }
@@ -187,10 +195,12 @@ def run_inventory(
                 "module_path": merged["module_path"],
                 "module_type": merged["module_type"],
                 "candidate_group": merged["candidate_group"],
+                "output_type": merged.get("output_type"),
                 "output_shape": str(merged.get("output_shape")),
-                "output_dtype": merged.get("output_dtype"),
+                "dtype": merged.get("dtype"),
+                "device": merged.get("device"),
                 "number_of_elements": merged.get("number_of_elements"),
-                "estimated_memory_mb": merged.get("estimated_memory_mb"),
+                "estimated_memory": merged.get("estimated_memory"),
                 "hook_error": merged.get("hook_error"),
             }
         )
@@ -213,7 +223,50 @@ def run_inventory(
         "num_recommended_initial_layers": len(recommended),
         "candidates": rows,
     }
+    environment = {
+        "package_versions": payload["package_versions"],
+        "device": "cuda",
+        "mat_root_required": True,
+    }
+    model_config = {
+        "model_id": backend.settings.model_id,
+        "torch_dtype": backend.settings.torch_dtype,
+        "num_inference_steps": backend.settings.num_inference_steps,
+        "guidance_scale": backend.settings.guidance_scale,
+        "image_guidance_scale": backend.settings.image_guidance_scale,
+        "seed": backend.settings.seed,
+        "frozen_flags": backend.frozen_flags(),
+        "resolved_timesteps": backend.resolved_timesteps(),
+    }
+    experiment_plan = {
+        "milestone": "Milestone 1 — Identity Layer Scan",
+        "scope": [
+            "layer inventory",
+            "activation hooks",
+            "pooled activation extraction",
+            "identity pair construction",
+            "layer identity scoring",
+            "layer/timestep ranking",
+            "report generation",
+        ],
+        "explicitly_not_implemented": [
+            "gradient sanity scan",
+            "geometry attack",
+            "pixel noise",
+            "adversarial patches",
+            "finetuning",
+            "LoRA",
+            "SPSA",
+            "CEM",
+            "landmarks",
+            "face alignment",
+            "face detection",
+        ],
+    }
     write_json(output_dir / "layer_inventory.json", payload)
+    write_json(output_dir / "environment.json", environment)
+    write_json(output_dir / "model_config.json", model_config)
+    write_json(output_dir / "experiment_plan.json", experiment_plan)
     write_csv(output_dir / "layer_inventory.csv", rows)
     write_csv(output_dir / "activation_shapes.csv", shape_rows)
     write_json(output_dir / "recommended_initial_layers.json", {"layers": recommended})

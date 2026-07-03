@@ -56,15 +56,15 @@ def _plot_reports(scores: list[dict[str, str]], pair_scores: list[dict[str, str]
     plt.close()
     graph_paths.append(path.relative_to(output_dir).as_posix())
 
-    same = [_safe_float(row["cosine_similarity"]) for row in pair_scores if row.get("pair_type") == "same_identity"]
-    diff = [_safe_float(row["cosine_similarity"]) for row in pair_scores if row.get("pair_type") == "different_identity"]
+    same = [_safe_float(row.get("cosine_distance")) for row in pair_scores if row.get("pair_type") == "same_identity"]
+    diff = [_safe_float(row.get("cosine_distance")) for row in pair_scores if row.get("pair_type") == "different_identity"]
     if same and diff:
         plt.figure(figsize=(8, 5))
         plt.hist(diff, bins=30, alpha=0.65, label="different identity")
         plt.hist(same, bins=30, alpha=0.65, label="same identity")
-        plt.xlabel("cosine similarity")
+        plt.xlabel("cosine distance")
         plt.ylabel("count")
-        plt.title("Same vs different pooled-activation cosine distributions")
+        plt.title("Same vs different pooled-activation distance distributions")
         plt.legend()
         plt.tight_layout()
         path = graph_dir / "same_vs_different_distributions.png"
@@ -107,23 +107,39 @@ def build_report(root: Path, output_dir: Path) -> dict[str, Any]:
     inventory_dir = root / "identity_layers" / "outputs" / "layer_inventory"
     extraction_dir = root / "identity_layers" / "outputs" / "activation_scan"
     scores_dir = root / "identity_layers" / "outputs" / "identity_scores"
-    scores = read_csv(scores_dir / "layer_scores.csv")
+    scores = read_csv(scores_dir / "verification_metrics.csv")
+    if not scores:
+        scores = read_csv(scores_dir / "layer_scores.csv")
     pair_scores = read_csv(scores_dir / "pair_scores.csv")
+    ranked_layers = read_csv(scores_dir / "layer_identity_scores.csv")
     inventory_payload = read_json(inventory_dir / "layer_inventory.json") if (inventory_dir / "layer_inventory.json").exists() else {}
     extraction_payload = read_json(extraction_dir / "extraction_manifest.json") if (extraction_dir / "extraction_manifest.json").exists() else {}
     score_payload = read_json(scores_dir / "identity_score_summary.json") if (scores_dir / "identity_score_summary.json").exists() else {}
     graph_paths = _plot_reports(scores, pair_scores, output_dir)
 
     top_rows = scores[:25]
+    top_layer_rows = ranked_layers[:20]
     table_md = "\n".join(
         [
-            "| rank | layer | prompt | timestep | same cos | diff cos | separation | AUC |",
+            "| rank | layer | prompt | timestep | same distance | diff distance | separation | AUC |",
             "|---:|---|---|---:|---:|---:|---:|---:|",
             *[
                 f"| {i+1} | `{row['layer_name']}` | {row['prompt']} | {row['timestep_index']} | "
-                f"{_safe_float(row['mean_same_cosine']):.4f} | {_safe_float(row['mean_different_cosine']):.4f} | "
+                f"{_safe_float(row['mean_same_identity_cosine_distance']):.4f} | {_safe_float(row['mean_different_identity_cosine_distance']):.4f} | "
                 f"{_safe_float(row['identity_separation']):.4f} | {_safe_float(row['identity_auc']):.4f} |"
                 for i, row in enumerate(top_rows)
+            ],
+        ]
+    )
+    layer_table_md = "\n".join(
+        [
+            "| rank | layer | rank score | mean separation | mean AUC | prompt instability | timestep instability |",
+            "|---:|---|---:|---:|---:|---:|---:|",
+            *[
+                f"| {i+1} | `{row['layer_name']}` | {_safe_float(row['layer_rank_score']):.4f} | "
+                f"{_safe_float(row['mean_identity_separation']):.4f} | {_safe_float(row['mean_identity_auc']):.4f} | "
+                f"{_safe_float(row['prompt_instability']):.4f} | {_safe_float(row['timestep_instability']):.4f} |"
+                for i, row in enumerate(top_layer_rows)
             ],
         ]
     )
@@ -140,6 +156,10 @@ Milestone 1 scans frozen InstructPix2Pix internal activations for identity-separ
 - Extracted embeddings: {extraction_payload.get('num_embeddings', 'unknown')}
 - Layer/prompt/timestep scores: {score_payload.get('num_layer_prompt_timestep_scores', 'unknown')}
 - Note: default MAT auto-manifest pairs are development diagnostics unless replaced with a richer identity dataset.
+
+## Ranked layers
+
+{layer_table_md}
 
 ## Top identity-separable layer/timestep rows
 
@@ -158,6 +178,19 @@ Milestone 1 scans frozen InstructPix2Pix internal activations for identity-separ
             f"<td>{_safe_float(row['identity_auc']):.4f}</td>"
             "</tr>"
             for i, row in enumerate(top_rows)
+        ]
+    )
+    html_layer_rows = "\n".join(
+        [
+            "<tr>"
+            f"<td>{i+1}</td><td><code>{row['layer_name']}</code></td>"
+            f"<td>{_safe_float(row['layer_rank_score']):.4f}</td>"
+            f"<td>{_safe_float(row['mean_identity_separation']):.4f}</td>"
+            f"<td>{_safe_float(row['mean_identity_auc']):.4f}</td>"
+            f"<td>{_safe_float(row['prompt_instability']):.4f}</td>"
+            f"<td>{_safe_float(row['timestep_instability']):.4f}</td>"
+            "</tr>"
+            for i, row in enumerate(top_layer_rows)
         ]
     )
     html = f"""<!doctype html>
@@ -182,6 +215,10 @@ code {{ background: #f3f4f6; padding: 1px 4px; border-radius: 4px; }}
 <li>Extracted embeddings: {extraction_payload.get('num_embeddings', 'unknown')}</li>
 <li>Layer/prompt/timestep scores: {score_payload.get('num_layer_prompt_timestep_scores', 'unknown')}</li>
 </ul>
+<h2>Ranked layers</h2>
+<table><thead><tr><th>rank</th><th>layer</th><th>rank score</th><th>mean separation</th><th>mean AUC</th><th>prompt instability</th><th>timestep instability</th></tr></thead><tbody>
+{html_layer_rows}
+</tbody></table>
 <h2>Top identity-separable layer/timestep rows</h2>
 <table><thead><tr><th>rank</th><th>layer</th><th>prompt</th><th>timestep</th><th>separation</th><th>AUC</th></tr></thead><tbody>
 {html_rows}

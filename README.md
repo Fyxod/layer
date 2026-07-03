@@ -75,17 +75,28 @@ identity_layers/outputs/layer_inventory/
   recommended_initial_layers.json
 
 identity_layers/outputs/activation_scan/
-  embeddings/
-  embeddings_index.csv
+  pooled_embeddings/
+  pooled_embeddings_index.csv
   activation_statistics.csv
+  resolved_timesteps.json
+  fixed_noise_metadata.json
+  prompt_embeddings_metadata.json
+  scan_conditions.csv
   extraction_manifest.json
   failures.jsonl
 
 identity_layers/outputs/identity_scores/
   pair_scores.csv
-  layer_scores.csv
-  top_identity_layers.csv
+  verification_metrics.csv
+  layer_identity_scores.csv
+  layer_timestep_scores.csv
+  layer_prompt_scores.csv
+  ranked_layers.json
   identity_score_summary.json
+  same_vs_different_distributions.png
+  identity_separation_by_layer.png
+  identity_auc_by_layer.png
+  layer_timestep_heatmap.png
 
 identity_layers/outputs/reports/
   identity_layer_scan_report.html

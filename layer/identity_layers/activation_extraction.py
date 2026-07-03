@@ -64,8 +64,46 @@ def run_extraction(
     backend = InstructLayerBackend(torch.device("cuda"))
     rows: list[dict[str, Any]] = []
     failures_path = output_dir / "failures.jsonl"
-    embeddings_dir = output_dir / "embeddings"
+    embeddings_dir = output_dir / "pooled_embeddings"
     embeddings_dir.mkdir(parents=True, exist_ok=True)
+
+    write_json(
+        output_dir / "resolved_timesteps.json",
+        {
+            "num_inference_steps": backend.settings.num_inference_steps,
+            "resolved_scheduler_timesteps": backend.resolved_timesteps(),
+            "selected_timestep_indices": scan_timestep_indices,
+            "note": "Scheduler timesteps are resolved by diffusers at runtime; timestep_index selects from this list.",
+        },
+    )
+
+    first_tensor = backend.load_image_tensor(manifest[0]["image_path"])
+    with torch.no_grad():
+        first_latent = backend.encode_image_latent(first_tensor)
+        fixed_noise = backend.fixed_noise(first_latent)
+        prompt_metadata = []
+        for prompt in scan_prompts:
+            embedding = backend.encode_prompt(prompt)
+            prompt_metadata.append(
+                {
+                    "prompt": prompt,
+                    "embedding_shape": list(embedding.shape),
+                    "embedding_dtype": str(embedding.dtype),
+                    "embedding_norm": float(embedding.float().norm().detach().cpu()),
+                }
+            )
+    write_json(
+        output_dir / "fixed_noise_metadata.json",
+        {
+            "seed": backend.settings.seed,
+            "noise_shape": list(fixed_noise.shape),
+            "noise_dtype": str(fixed_noise.dtype),
+            "noise_device": str(fixed_noise.device),
+            "scheduler_init_noise_sigma": float(backend.pipe.scheduler.init_noise_sigma),
+            "reference_image_path_for_shape": manifest[0]["image_path"],
+        },
+    )
+    write_json(output_dir / "prompt_embeddings_metadata.json", {"prompts": prompt_metadata})
 
     for image_row in manifest:
         image_tensor = backend.load_image_tensor(image_row["image_path"])
@@ -114,7 +152,7 @@ def run_extraction(
                                 f"t{timestep_index:02d}",
                             ]
                         )
-                        rel_path = Path("embeddings") / f"{stem}.npy"
+                        rel_path = Path("pooled_embeddings") / f"{stem}.npy"
                         np.save(output_dir / rel_path, item["vector"].astype(np.float32))
                         rows.append(
                             {
@@ -127,6 +165,8 @@ def run_extraction(
                                 "identity_id": image_row["identity_id"],
                                 "image_path": image_row["image_path"],
                                 "vector_dim": int(item["vector"].shape[0]),
+                                "selected_tensor_rule": "first_tensor_recursive",
+                                "embedding_finite": bool(np.isfinite(item["vector"]).all()),
                                 "output_shape": str(item.get("output_shape")),
                                 "output_dtype": item.get("output_dtype"),
                                 **item["stats"],
@@ -145,7 +185,27 @@ def run_extraction(
                     )
 
     write_csv(output_dir / "embeddings_index.csv", rows)
+    write_csv(output_dir / "pooled_embeddings_index.csv", rows)
     write_csv(output_dir / "activation_statistics.csv", rows)
+    scan_condition_rows = [
+        {
+            "prompt": prompt,
+            "timestep_index": timestep_index,
+            "layer_name": layer_name,
+            "seed": backend.settings.seed,
+            "num_inference_steps": backend.settings.num_inference_steps,
+            "guidance_scale": backend.settings.guidance_scale,
+            "image_guidance_scale": backend.settings.image_guidance_scale,
+            "text_embedding_fixed": True,
+            "noise_tensor_fixed": True,
+            "scheduler_fixed": True,
+            "model_precision": backend.settings.torch_dtype,
+        }
+        for prompt in scan_prompts
+        for timestep_index in scan_timestep_indices
+        for layer_name in scan_layers
+    ]
+    write_csv(output_dir / "scan_conditions.csv", scan_condition_rows)
     summary = {
         "num_images": len(manifest),
         "num_embeddings": len(rows),
