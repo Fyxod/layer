@@ -1,0 +1,12 @@
+{
+  "title": "LAYER: InstructPix2Pix Identity-Layer Geometry Results",
+  "results_dir": "C:\\Users\\parth\\Desktop\\experiment\\layer\\identity_layers\\outputs\\stage_b_broad_400",
+  "output_root": "identity_layers\\outputs\\reports\\stage_b_current",
+  "num_runs": 32,
+  "num_missing": 0,
+  "num_invalid": 7,
+  "html": "layer_stage_b_report.html",
+  "markdown": "layer_stage_b_report.md",
+  "pdf": "layer_stage_b_report.pdf",
+  "compress_report": false
+}

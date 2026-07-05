@@ -1,0 +1,2 @@
+layers,prompts,images,runs,iterations,layer_names,prompt_names
+4,2,4,32,400,"unet.conv_in, unet.mid_block, unet.up_blocks.0, vae_image_latent","add black sunglasses, add headphones"
