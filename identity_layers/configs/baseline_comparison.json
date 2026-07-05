@@ -1,0 +1,10 @@
+{
+  "phase": "A6_baseline_comparison",
+  "notes": "Compares selected Instruct layers against raw image, VAE, final UNet prediction, and random-projection baselines.",
+  "max_top_layers": 8,
+  "compute_unet_baseline": true,
+  "arcface": {
+    "status": "optional_not_required",
+    "note": "ArcFace is an external identity reference only; it is not used as an Instruct objective."
+  }
+}

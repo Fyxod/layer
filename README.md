@@ -115,6 +115,21 @@ identity_layers/outputs/reports/
   identity_layer_scan_report.html
   identity_layer_scan_report.md
   graphs/
+
+identity_layers/outputs/baseline_comparison/
+  baseline_comparison.csv
+  baseline_comparison_summary.json
+  baseline_comparison.png
+  instruct_vs_arcface_correlation.csv
+
+identity_layers/outputs/gradient_scan/
+  gradient_sanity.csv
+  layer_gradient_rankings.csv
+  selected_layers.json
+  rejected_layers.json
+  gradient_norm_by_layer.png
+  short_step_Z_curves.png
+  gradient_scan_summary.json
 ```
 
 ## Notes
@@ -122,3 +137,13 @@ identity_layers/outputs/reports/
 Milestone 1 is meant to answer: which InstructPix2Pix internal activations look identity-separable enough to be useful targets for a later gradient/geometry phase?
 
 The later attack phase should only be built after these scan outputs are inspected.
+
+## Stage-A continuation
+
+After Milestone 1, run Phase A6/A7 with:
+
+```text
+instructions/a6000_phase_a6_a7_commands.md
+```
+
+A6 compares the ranked Instruct layers against simple baselines. A7 performs only a short gradient sanity scan to check whether identity-sensitive layers produce finite gradients to geometry parameters. It is not a full attack.

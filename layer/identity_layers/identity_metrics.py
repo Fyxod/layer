@@ -194,6 +194,12 @@ def run_scoring(extraction_dir: Path, output_dir: Path) -> dict[str, Any]:
     diff_pairs = read_csv(extraction_dir / "manifest" / "different_identity_pairs.csv")
     if not index_rows:
         raise FileNotFoundError(f"No pooled embeddings found in {extraction_dir}")
+    dataset_summary_path = extraction_dir / "manifest" / "dataset_summary.json"
+    dataset_summary = {}
+    if dataset_summary_path.exists():
+        import json
+
+        dataset_summary = json.loads(dataset_summary_path.read_text(encoding="utf-8"))
 
     embeddings: dict[tuple[str, str, str, int], np.ndarray] = {}
     for row in index_rows:
@@ -320,7 +326,8 @@ def run_scoring(extraction_dir: Path, output_dir: Path) -> dict[str, Any]:
         "ranking_basis": "layer_rank_score = mean_identity_separation + mean_identity_auc - prompt_instability - timestep_instability",
         "top_layers": layer_identity_scores[:50],
         "top_layer_prompt_timestep_conditions": verification_rows[:50],
-        "warning": "Default MAT auto-manifest is a development diagnostic unless replaced with a richer identity dataset.",
+        "dataset_summary": dataset_summary,
+        "warning": dataset_summary.get("warning"),
     }
     write_json(output_dir / "ranked_layers.json", ranked)
     summary = {
@@ -330,6 +337,7 @@ def run_scoring(extraction_dir: Path, output_dir: Path) -> dict[str, Any]:
         "top_layers": layer_identity_scores[:20],
         "top_conditions": verification_rows[:20],
         "graph_paths": graph_paths,
+        "dataset_summary": dataset_summary,
         "warning": ranked["warning"],
     }
     write_json(output_dir / "identity_score_summary.json", summary)

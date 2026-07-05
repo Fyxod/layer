@@ -1,5 +1,27 @@
 {
-  "status": "placeholder",
-  "milestone": "future",
-  "notes": "Gradient scan and geometry attack are intentionally not implemented in Milestone 1."
+  "phase": "A7_gradient_sanity_scan",
+  "notes": "Short gradient sanity only. This is not a full geometry attack.",
+  "layers": null,
+  "max_layers": 5,
+  "max_cases": 3,
+  "prompt": "add black sunglasses",
+  "timestep_index": 6,
+  "steps": 5,
+  "learning_rate": 0.03,
+  "geometry": {
+    "seed": 1234,
+    "init": "small_random",
+    "init_fraction": 0.05,
+    "tps_enabled": true,
+    "delaunay_enabled": true,
+    "rolling_enabled": true,
+    "dct_enabled": true,
+    "fft_phase_enabled": true,
+    "tps_px_limit": 3.6,
+    "delaunay_px_limit": 5.1,
+    "rolling_px_limit": 4.6,
+    "dct_px_limit": 4.1,
+    "fft_phase_limit_rad": 3.141592653589793,
+    "max_combined_disp_px": 8.0
+  }
 }
