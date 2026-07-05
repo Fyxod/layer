@@ -1,0 +1,9 @@
+{
+  "best_Z": 0.0029368996620178223,
+  "best_iter": 206,
+  "best_valid_Z": 0.002870321273803711,
+  "best_valid_iter": 223,
+  "best_valid_score": 0.0020836591720581055,
+  "final_source": "best_valid_checkpoint",
+  "note": "Best tensors are not saved to avoid committing large checkpoint artifacts."
+}

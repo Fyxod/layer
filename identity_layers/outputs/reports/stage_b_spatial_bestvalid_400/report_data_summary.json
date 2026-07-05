@@ -1,0 +1,12 @@
+{
+  "title": "LAYER: InstructPix2Pix Identity-Layer Geometry Results",
+  "results_dir": "/home/interns/Desktop/layer/identity_layers/outputs/stage_b_spatial_bestvalid_400",
+  "output_root": "/home/interns/Desktop/layer/identity_layers/outputs/reports/stage_b_spatial_bestvalid_400",
+  "num_runs": 8,
+  "num_missing": 0,
+  "num_invalid": 0,
+  "html": "layer_stage_b_report.html",
+  "markdown": "layer_stage_b_report.md",
+  "pdf": "layer_stage_b_report.pdf",
+  "compress_report": false
+}
