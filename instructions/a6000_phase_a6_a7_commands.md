@@ -11,6 +11,8 @@ identity_layers/outputs/reports/
 
 ## A6 — baseline comparison
 
+Default run without ArcFace:
+
 ```bash
 cd /home/interns/Desktop/layer
 git pull origin main
@@ -20,6 +22,20 @@ $HOME/.local/bin/micromamba run -p /home/interns/Desktop/mat/.micromamba/envs/ma
   --root /home/interns/Desktop/layer
 ```
 
+If ArcFace / FACE iResNet-100 is available, prefer this run now:
+
+```bash
+cd /home/interns/Desktop/layer
+git pull origin main
+
+$HOME/.local/bin/micromamba run -p /home/interns/Desktop/mat/.micromamba/envs/mat-a6000 \
+  python -m layer.scripts.run_baseline_comparison \
+  --root /home/interns/Desktop/layer \
+  --compute-arcface \
+  --face-repo /home/interns/Desktop/face \
+  --arcface-checkpoint /home/interns/Desktop/face/models/arcface/iresnet100.pth
+```
+
 Outputs:
 
 ```text
@@ -27,9 +43,10 @@ identity_layers/outputs/baseline_comparison/baseline_comparison.csv
 identity_layers/outputs/baseline_comparison/baseline_comparison_summary.json
 identity_layers/outputs/baseline_comparison/baseline_comparison.png
 identity_layers/outputs/baseline_comparison/instruct_vs_arcface_correlation.csv
+identity_layers/outputs/baseline_comparison/arcface_metadata.json if ArcFace was requested
 ```
 
-Note: ArcFace is not required for this run. If ArcFace embeddings are unavailable, the correlation CSV records that explicitly.
+Note: ArcFace is an external evaluation reference only. It is not an InstructPix2Pix training objective and is not used during activation extraction.
 
 ## A7 — short gradient sanity scan
 

@@ -15,6 +15,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--output-dir", type=Path, default=None)
     parser.add_argument("--max-top-layers", type=int, default=8)
     parser.add_argument("--skip-unet-baseline", action="store_true")
+    parser.add_argument("--compute-arcface", action="store_true")
+    parser.add_argument("--arcface-checkpoint", type=Path, default=None)
+    parser.add_argument("--face-repo", type=Path, default=None)
+    parser.add_argument("--arcface-device", type=str, default="cuda")
+    parser.add_argument("--arcface-fp16", action="store_true")
     return parser.parse_args()
 
 
@@ -30,6 +35,11 @@ def main() -> None:
         output_dir=output_dir,
         compute_unet_baseline=not args.skip_unet_baseline,
         max_top_layers=args.max_top_layers,
+        compute_arcface_baseline=args.compute_arcface,
+        arcface_checkpoint=args.arcface_checkpoint,
+        face_repo=args.face_repo,
+        arcface_device=args.arcface_device,
+        arcface_fp16=args.arcface_fp16,
     )
     print(f"Wrote baseline comparison to: {output_dir}")
     print(f"Baselines/layers compared: {summary['num_baselines']}")
