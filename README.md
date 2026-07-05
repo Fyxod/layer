@@ -130,6 +130,13 @@ identity_layers/outputs/gradient_scan/
   gradient_norm_by_layer.png
   short_step_Z_curves.png
   gradient_scan_summary.json
+
+identity_layers/outputs/stage_b_smoke/
+  stage_b_all_runs.csv
+  stage_b_top_runs.csv
+  stage_b_summary.json
+  stage_b_decision_report.md
+  stage_b_top_sheet.jpg
 ```
 
 ## Notes
@@ -147,3 +154,27 @@ instructions/a6000_phase_a6_a7_commands.md
 ```
 
 A6 compares the ranked Instruct layers against simple baselines. A7 performs only a short gradient sanity scan to check whether identity-sensitive layers produce finite gradients to geometry parameters. It is not a full attack.
+
+## Stage-B smoke
+
+The first Stage-B smoke targets only:
+
+```text
+vae_image_latent
+unet.conv_in
+```
+
+It uses:
+
+```text
+Z = 1 - cosine_similarity(pool(layer(original)), pool(layer(perturbed)))
+loss = -Z
+```
+
+Only geometry parameters are optimized. There is no visual counter-loss in this smoke.
+
+Run commands are in:
+
+```text
+instructions/a6000_stage_b_next_commands.md
+```

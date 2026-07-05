@@ -43,17 +43,13 @@ Start Stage B with vae_image_latent and unet.conv_in only.
 If those fail, revisit the ArcFace-correlated deeper layers with a modified gradient probe.
 ```
 
-## Next coding task
-
-Implement a small Stage-B targeted geometry smoke, not a full attack matrix.
-
-Suggested new files:
+## Implemented Stage-B smoke files
 
 ```text
 layer/identity_layers/stage_b_attack.py
 layer/scripts/run_stage_b_smoke.py
 layer/scripts/summarize_stage_b.py
-configs/stage_b_smoke.json
+identity_layers/configs/stage_b_smoke.json
 ```
 
 Suggested outputs:
@@ -141,39 +137,63 @@ face alignment / face detection
 
 Only optimize differentiable geometry parameters.
 
-## A6000 commands after Stage-B smoke code exists
+## A6000 Stage-B smoke commands
 
-These commands are intentionally for after `run_stage_b_smoke.py` has been implemented.
+Run this after pulling the implementation.
 
 ```bash
 cd /home/interns/Desktop/layer
 git pull origin main
 
+mkdir -p logs
+
 $HOME/.local/bin/micromamba run -p /home/interns/Desktop/mat/.micromamba/envs/mat-a6000 \
   python -m layer.scripts.run_stage_b_smoke \
   --root /home/interns/Desktop/layer \
+  --config /home/interns/Desktop/layer/identity_layers/configs/stage_b_smoke.json \
   --layers vae_image_latent unet.conv_in \
   --prompts "add black sunglasses" "add headphones" \
   --iters 50 \
-  --output-dir /home/interns/Desktop/layer/identity_layers/outputs/stage_b_smoke
+  --max-cases 3 \
+  --output-dir /home/interns/Desktop/layer/identity_layers/outputs/stage_b_smoke \
+  2>&1 | tee logs/layer_stage_b_smoke.log
 
 $HOME/.local/bin/micromamba run -p /home/interns/Desktop/mat/.micromamba/envs/mat-a6000 \
   python -m layer.scripts.summarize_stage_b \
   --root /home/interns/Desktop/layer \
-  --results-dir /home/interns/Desktop/layer/identity_layers/outputs/stage_b_smoke
+  --results-dir /home/interns/Desktop/layer/identity_layers/outputs/stage_b_smoke \
+  2>&1 | tee -a logs/layer_stage_b_smoke.log
 ```
 
 Push after running:
 
 ```bash
 git status -sb
-git add identity_layers/outputs/stage_b_smoke logs.txt
+git add identity_layers/outputs/stage_b_smoke logs/layer_stage_b_smoke.log logs.txt
 git commit -m "Add Stage B targeted layer smoke outputs"
 git push origin main
 ```
 
-## Do not run yet
+## What to inspect after pushing
 
-Do not paste the Stage-B smoke commands until the Stage-B scripts exist.
+```text
+identity_layers/outputs/stage_b_smoke/stage_b_summary.json
+identity_layers/outputs/stage_b_smoke/stage_b_all_runs.csv
+identity_layers/outputs/stage_b_smoke/stage_b_top_runs.csv
+identity_layers/outputs/stage_b_smoke/stage_b_decision_report.md
+identity_layers/outputs/stage_b_smoke/stage_b_top_sheet.jpg
+logs/layer_stage_b_smoke.log
+```
 
-The immediate next work item is implementation of the small Stage-B smoke workflow.
+## Decision gate
+
+Only proceed to a 150-iteration main test if the smoke shows:
+
+```text
+Z increases
+finite gradients
+reasonable PSNR/SSIM
+no severe foldover or clamp saturation
+```
+
+If both `vae_image_latent` and `unet.conv_in` fail this smoke, then revisit the ArcFace-correlated deeper layers with a modified gradient probe instead of forcing this objective family.
