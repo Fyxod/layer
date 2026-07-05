@@ -1,0 +1,348 @@
+<!doctype html><html lang='en'><head><meta charset='utf-8'><meta name='viewport' content='width=device-width, initial-scale=1'>
+<title>LAYER: InstructPix2Pix Identity-Layer Geometry Results</title><style>
+    :root { --ink:#111827; --muted:#64748b; --line:#d8dee9; --panel:#ffffff; --soft:#f8fafc; --red:#b91c1c; --blue:#2563eb; }
+    body { margin:0; font-family: Inter, Segoe UI, Arial, sans-serif; color:var(--ink); background:#f3f6fb; }
+    main { max-width:1180px; margin:0 auto; padding:40px 28px 70px; background:white; }
+    h1 { font-size:34px; margin:0 0 6px; } h2 { margin-top:34px; border-bottom:2px solid var(--line); padding-bottom:8px; }
+    h3 { margin-top:24px; } .subtitle { color:var(--muted); font-size:18px; margin:0 0 4px; } .author { color:var(--muted); margin-top:0; }
+    .card { border:1px solid var(--line); border-radius:14px; background:var(--panel); padding:18px; margin:18px 0 26px; box-shadow:0 1px 2px rgba(15,23,42,.04); }
+    .callout { border-left:5px solid var(--red); background:#fff7ed; padding:14px 16px; border-radius:10px; }
+    code, pre { background:#f1f5f9; border-radius:6px; padding:2px 5px; } pre { padding:12px; overflow:auto; }
+    .table-wrap { overflow-x:auto; max-width:100%; margin:12px 0 22px; } table { border-collapse:collapse; width:100%; font-size:12.5px; }
+    th,td { border:1px solid var(--line); padding:7px 8px; vertical-align:top; } th { background:var(--soft); text-align:left; }
+    .strip { width:100%; border:1px solid var(--line); border-radius:10px; display:block; background:white; }
+    .graph-section { border:1px solid var(--line); border-radius:14px; background:var(--panel); padding:18px; margin:18px 0 28px; }
+    .graph-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(430px,1fr)); gap:18px; }
+    .graph { border:1px solid var(--line); border-radius:10px; padding:12px; background:white; margin:0; }
+    .graph figcaption { font-weight:650; margin:0 0 10px; } .graph img { width:100%; display:block; }
+    .path { font-family:Consolas,monospace; font-size:12px; word-break:break-all; color:#334155; }
+    @media print { main { max-width:none; } .card { break-inside:avoid; } }
+    </style></head><body><main>
+<h1>LAYER: InstructPix2Pix Identity-Layer Geometry Results</h1><p class='subtitle'>Stage-B targeted layer optimization with Stage-A identity-layer context</p><p class='author'>Parth Katiyar</p>
+<div class='card'><h2>Overview</h2><p>This report summarizes the current Stage-B identity-layer geometry runs. InstructPix2Pix weights are frozen. Only differentiable geometry parameters are optimized.</p></div>
+<h2>1. Method</h2>
+<p>Stage A ranked internal representations and tested whether identity-sensitive layers produced usable gradients to geometry parameters. Stage B targets selected frozen InstructPix2Pix layers directly.</p>
+<pre>Z = 1 - cosine_similarity(pool(layer(original)), pool(layer(perturbed)))
+loss = -Z + input_preservation_weight * MSE(perturbed, original)</pre>
+<p>These runs use an input-preservation counter-loss. Observed preservation weights: 1. Final images may be generated from the best valid checkpoint when checkpoint selection is enabled.</p>
+<h2>2. Stage-A context</h2>
+<h3>Gradient-selected layers</h3>
+<div class='table-wrap'><table><thead><tr>
+<th>layer</th>
+<th>initial Z</th>
+<th>final Z</th>
+<th>dZ</th>
+<th>grad norm</th>
+<th>finite</th>
+</tr></thead><tbody>
+<tr>
+<td>vae_image_latent</td>
+<td>0.0011457006136576335</td>
+<td>0.0023552775382995605</td>
+<td>0.001209576924641927</td>
+<td>0.0004485903461141318</td>
+<td>True</td>
+</tr>
+<tr>
+<td>unet.conv_in</td>
+<td>0.0021939675013224282</td>
+<td>0.0031431118647257486</td>
+<td>0.0009491443634033203</td>
+<td>0.00047768492630390893</td>
+<td>True</td>
+</tr>
+<tr>
+<td>unet.up_blocks.0</td>
+<td>2.7259190877278645e-05</td>
+<td>2.7259190877278645e-05</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>True</td>
+</tr>
+<tr>
+<td>unet.mid_block</td>
+<td>1.7066796620686848e-05</td>
+<td>1.7066796620686848e-05</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>True</td>
+</tr>
+<tr>
+<td>unet.down_blocks.0.attentions.0.transformer_blocks.0.attn2.to_out.0</td>
+<td>2.086162567138672e-06</td>
+<td>2.086162567138672e-06</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>True</td>
+</tr>
+</tbody></table></div>
+<h3>ArcFace correlation context</h3>
+<div class='table-wrap'><table><thead><tr>
+<th>baseline</th>
+<th>Spearman vs ArcFace</th>
+<th>Pearson vs ArcFace</th>
+</tr></thead><tbody>
+<tr>
+<td>instruct_layer__unet.mid_block</td>
+<td>0.5080201394878334</td>
+<td>0.43956538087994856</td>
+</tr>
+<tr>
+<td>instruct_layer__unet.up_blocks.0</td>
+<td>0.5066684391531052</td>
+<td>0.44825135270348926</td>
+</tr>
+<tr>
+<td>instruct_layer__unet.up_blocks.1.attentions.1.transformer_blocks.0</td>
+<td>0.49454027111395493</td>
+<td>0.41950434491725336</td>
+</tr>
+<tr>
+<td>instruct_layer__unet.down_blocks.3</td>
+<td>0.49369099880681855</td>
+<td>0.43408528174048544</td>
+</tr>
+<tr>
+<td>final_unet_prediction__add headphones__t14</td>
+<td>0.4777947830346697</td>
+<td>0.3909877274332537</td>
+</tr>
+<tr>
+<td>final_unet_prediction__add black sunglasses__t14</td>
+<td>0.47694776902017616</td>
+<td>0.39169253598600745</td>
+</tr>
+<tr>
+<td>final_unet_prediction__add black sunglasses__t10</td>
+<td>0.4711601161249437</td>
+<td>0.37713479811851414</td>
+</tr>
+<tr>
+<td>final_unet_prediction__add headphones__t10</td>
+<td>0.47054560218219643</td>
+<td>0.37803527246150836</td>
+</tr>
+<tr>
+<td>instruct_layer__unet.down_blocks.0.attentions.1.transformer_blocks.0.ff.net.1</td>
+<td>0.45908856708299123</td>
+<td>0.40072524451744895</td>
+</tr>
+<tr>
+<td>final_unet_prediction__add headphones__t3</td>
+<td>0.4525361845868453</td>
+<td>0.3560625376320527</td>
+</tr>
+</tbody></table></div>
+<h2>3. Run matrix</h2>
+<div class='table-wrap'><table><thead><tr>
+<th>layers</th>
+<th>prompts</th>
+<th>images</th>
+<th>runs</th>
+<th>iterations</th>
+<th>layer names</th>
+</tr></thead><tbody>
+<tr>
+<td>1.0000</td>
+<td>2.0000</td>
+<td>4.0000</td>
+<td>8.0000</td>
+<td>250</td>
+<td>unet.conv_in</td>
+</tr>
+</tbody></table></div>
+<h2>4. Aggregate results</h2>
+<div class='table-wrap'><table><thead><tr>
+<th>layer</th>
+<th>prompt</th>
+<th>runs</th>
+<th>mean dZ</th>
+<th>max dZ</th>
+<th>mean input SSIM</th>
+<th>min input SSIM</th>
+<th>mean output SSIM</th>
+<th>invalid</th>
+</tr></thead><tbody>
+<tr>
+<td>unet.conv_in</td>
+<td>add black sunglasses</td>
+<td>4.0000</td>
+<td>-0.0004238</td>
+<td>-0.0002488</td>
+<td>0.9999</td>
+<td>0.9998</td>
+<td>0.9996</td>
+<td>0</td>
+</tr>
+<tr>
+<td>unet.conv_in</td>
+<td>add headphones</td>
+<td>4.0000</td>
+<td>-0.0004234</td>
+<td>-0.0002489</td>
+<td>0.9999</td>
+<td>0.9998</td>
+<td>0.996</td>
+<td>0</td>
+</tr>
+</tbody></table></div>
+<h2>5. Per-run final values</h2>
+<div class='table-wrap'><table><thead><tr>
+<th>validity</th>
+<th>layer</th>
+<th>prompt</th>
+<th>image</th>
+<th>source</th>
+<th>dZ</th>
+<th>final Z</th>
+<th>preserve w</th>
+<th>input SSIM</th>
+<th>input PSNR</th>
+<th>output SSIM</th>
+<th>output L2</th>
+<th>max disp</th>
+</tr></thead><tbody>
+<tr>
+<td>valid_or_visually_check</td>
+<td>unet.conv_in</td>
+<td>add black sunglasses</td>
+<td>michelle_obama_01</td>
+<td>best_valid_checkpoint</td>
+<td>-0.0002488</td>
+<td>5.436e-05</td>
+<td>1.0000</td>
+<td>0.9998</td>
+<td>50.386</td>
+<td>0.9995</td>
+<td>0.006247</td>
+<td>0.3995</td>
+</tr>
+<tr>
+<td>valid_or_visually_check</td>
+<td>unet.conv_in</td>
+<td>add headphones</td>
+<td>michelle_obama_01</td>
+<td>best_valid_checkpoint</td>
+<td>-0.0002489</td>
+<td>5.424e-05</td>
+<td>1.0000</td>
+<td>0.9998</td>
+<td>50.386</td>
+<td>0.9954</td>
+<td>0.01609</td>
+<td>0.3995</td>
+</tr>
+<tr>
+<td>valid_or_visually_check</td>
+<td>unet.conv_in</td>
+<td>add black sunglasses</td>
+<td>joe_biden_01</td>
+<td>best_valid_checkpoint</td>
+<td>-0.0002964</td>
+<td>0.0001072</td>
+<td>1.0000</td>
+<td>0.9999</td>
+<td>48.817</td>
+<td>0.9996</td>
+<td>0.006597</td>
+<td>0.3346</td>
+</tr>
+<tr>
+<td>valid_or_visually_check</td>
+<td>unet.conv_in</td>
+<td>add headphones</td>
+<td>joe_biden_01</td>
+<td>best_valid_checkpoint</td>
+<td>-0.0002964</td>
+<td>0.0001072</td>
+<td>1.0000</td>
+<td>0.9999</td>
+<td>48.817</td>
+<td>0.9983</td>
+<td>0.01407</td>
+<td>0.3346</td>
+</tr>
+<tr>
+<td>valid_or_visually_check</td>
+<td>unet.conv_in</td>
+<td>add headphones</td>
+<td>barack_obama_01</td>
+<td>best_valid_checkpoint</td>
+<td>-0.0005034</td>
+<td>0.0001174</td>
+<td>1.0000</td>
+<td>0.9998</td>
+<td>47.311</td>
+<td>0.9907</td>
+<td>0.03416</td>
+<td>0.3696</td>
+</tr>
+<tr>
+<td>valid_or_visually_check</td>
+<td>unet.conv_in</td>
+<td>add black sunglasses</td>
+<td>barack_obama_01</td>
+<td>best_valid_checkpoint</td>
+<td>-0.0005036</td>
+<td>0.0001172</td>
+<td>1.0000</td>
+<td>0.9998</td>
+<td>47.311</td>
+<td>0.9994</td>
+<td>0.008591</td>
+<td>0.3696</td>
+</tr>
+<tr>
+<td>valid_or_visually_check</td>
+<td>unet.conv_in</td>
+<td>add headphones</td>
+<td>kamala_harris_01</td>
+<td>best_valid_checkpoint</td>
+<td>-0.000645</td>
+<td>0.0001416</td>
+<td>1.0000</td>
+<td>0.9999</td>
+<td>50.649</td>
+<td>0.9995</td>
+<td>0.008266</td>
+<td>0.4585</td>
+</tr>
+<tr>
+<td>valid_or_visually_check</td>
+<td>unet.conv_in</td>
+<td>add black sunglasses</td>
+<td>kamala_harris_01</td>
+<td>best_valid_checkpoint</td>
+<td>-0.0006464</td>
+<td>0.0001403</td>
+<td>1.0000</td>
+<td>0.9999</td>
+<td>50.649</td>
+<td>0.9997</td>
+<td>0.006865</td>
+<td>0.4585</td>
+</tr>
+</tbody></table></div>
+<div class='callout'><b>Input-validity note:</b> no runs were flagged as input-destroyed by the report heuristic. Visual inspection is still required.</div>
+<h2>6. Image strips</h2>
+<div class='card'><h3>unet.conv_in / add black sunglasses / michelle_obama_01</h3><p><b>Validity:</b> valid_or_visually_check &nbsp; <b>dZ:</b> -0.0002488 &nbsp; <b>input SSIM:</b> 0.9998 &nbsp; <b>output SSIM:</b> 0.9995</p><img class='strip' src='assets/strips/unet_conv_in_add_black_sunglasses_michelle_obama_01.png' alt='strip'><p class='path'>/home/interns/Desktop/layer/identity_layers/outputs/stage_b_preservation_checkpoint_250/runs/unet_conv_in/add_black_sunglasses/michelle_obama_01</p></div>
+<div class='card'><h3>unet.conv_in / add headphones / michelle_obama_01</h3><p><b>Validity:</b> valid_or_visually_check &nbsp; <b>dZ:</b> -0.0002489 &nbsp; <b>input SSIM:</b> 0.9998 &nbsp; <b>output SSIM:</b> 0.9954</p><img class='strip' src='assets/strips/unet_conv_in_add_headphones_michelle_obama_01.png' alt='strip'><p class='path'>/home/interns/Desktop/layer/identity_layers/outputs/stage_b_preservation_checkpoint_250/runs/unet_conv_in/add_headphones/michelle_obama_01</p></div>
+<div class='card'><h3>unet.conv_in / add black sunglasses / joe_biden_01</h3><p><b>Validity:</b> valid_or_visually_check &nbsp; <b>dZ:</b> -0.0002964 &nbsp; <b>input SSIM:</b> 0.9999 &nbsp; <b>output SSIM:</b> 0.9996</p><img class='strip' src='assets/strips/unet_conv_in_add_black_sunglasses_joe_biden_01.png' alt='strip'><p class='path'>/home/interns/Desktop/layer/identity_layers/outputs/stage_b_preservation_checkpoint_250/runs/unet_conv_in/add_black_sunglasses/joe_biden_01</p></div>
+<div class='card'><h3>unet.conv_in / add headphones / joe_biden_01</h3><p><b>Validity:</b> valid_or_visually_check &nbsp; <b>dZ:</b> -0.0002964 &nbsp; <b>input SSIM:</b> 0.9999 &nbsp; <b>output SSIM:</b> 0.9983</p><img class='strip' src='assets/strips/unet_conv_in_add_headphones_joe_biden_01.png' alt='strip'><p class='path'>/home/interns/Desktop/layer/identity_layers/outputs/stage_b_preservation_checkpoint_250/runs/unet_conv_in/add_headphones/joe_biden_01</p></div>
+<div class='card'><h3>unet.conv_in / add headphones / barack_obama_01</h3><p><b>Validity:</b> valid_or_visually_check &nbsp; <b>dZ:</b> -0.0005034 &nbsp; <b>input SSIM:</b> 0.9998 &nbsp; <b>output SSIM:</b> 0.9907</p><img class='strip' src='assets/strips/unet_conv_in_add_headphones_barack_obama_01.png' alt='strip'><p class='path'>/home/interns/Desktop/layer/identity_layers/outputs/stage_b_preservation_checkpoint_250/runs/unet_conv_in/add_headphones/barack_obama_01</p></div>
+<div class='card'><h3>unet.conv_in / add black sunglasses / barack_obama_01</h3><p><b>Validity:</b> valid_or_visually_check &nbsp; <b>dZ:</b> -0.0005036 &nbsp; <b>input SSIM:</b> 0.9998 &nbsp; <b>output SSIM:</b> 0.9994</p><img class='strip' src='assets/strips/unet_conv_in_add_black_sunglasses_barack_obama_01.png' alt='strip'><p class='path'>/home/interns/Desktop/layer/identity_layers/outputs/stage_b_preservation_checkpoint_250/runs/unet_conv_in/add_black_sunglasses/barack_obama_01</p></div>
+<div class='card'><h3>unet.conv_in / add headphones / kamala_harris_01</h3><p><b>Validity:</b> valid_or_visually_check &nbsp; <b>dZ:</b> -0.000645 &nbsp; <b>input SSIM:</b> 0.9999 &nbsp; <b>output SSIM:</b> 0.9995</p><img class='strip' src='assets/strips/unet_conv_in_add_headphones_kamala_harris_01.png' alt='strip'><p class='path'>/home/interns/Desktop/layer/identity_layers/outputs/stage_b_preservation_checkpoint_250/runs/unet_conv_in/add_headphones/kamala_harris_01</p></div>
+<div class='card'><h3>unet.conv_in / add black sunglasses / kamala_harris_01</h3><p><b>Validity:</b> valid_or_visually_check &nbsp; <b>dZ:</b> -0.0006464 &nbsp; <b>input SSIM:</b> 0.9999 &nbsp; <b>output SSIM:</b> 0.9997</p><img class='strip' src='assets/strips/unet_conv_in_add_black_sunglasses_kamala_harris_01.png' alt='strip'><p class='path'>/home/interns/Desktop/layer/identity_layers/outputs/stage_b_preservation_checkpoint_250/runs/unet_conv_in/add_black_sunglasses/kamala_harris_01</p></div>
+<h2>7. Graphs</h2>
+<div class='graph-section'><h3>Cross-run graphs</h3><div class='graph-grid'>
+<figure class='graph'><figcaption>Z vs iteration</figcaption><img src='assets/graphs/z_vs_iteration.png' alt='Z vs iteration'></figure>
+<figure class='graph'><figcaption>Loss vs iteration</figcaption><img src='assets/graphs/loss_vs_iteration.png' alt='Loss vs iteration'></figure>
+<figure class='graph'><figcaption>Input SSIM vs iteration</figcaption><img src='assets/graphs/input_ssim_vs_iteration.png' alt='Input SSIM vs iteration'></figure>
+<figure class='graph'><figcaption>Input PSNR vs iteration</figcaption><img src='assets/graphs/input_psnr_vs_iteration.png' alt='Input PSNR vs iteration'></figure>
+<figure class='graph'><figcaption>Combined max displacement vs iteration</figcaption><img src='assets/graphs/combined_max_disp_vs_iteration.png' alt='Combined max displacement vs iteration'></figure>
+<figure class='graph'><figcaption>FFT spatial delta MSE vs iteration</figcaption><img src='assets/graphs/fft_delta_mse_vs_iteration.png' alt='FFT spatial delta MSE vs iteration'></figure>
+<figure class='graph'><figcaption>Component magnitude vs iteration</figcaption><img src='assets/graphs/component_magnitude_vs_iteration.png' alt='Component magnitude vs iteration'></figure>
+<figure class='graph'><figcaption>Z increase vs input SSIM</figcaption><img src='assets/graphs/z_increase_vs_input_ssim.png' alt='Z increase vs input SSIM'></figure>
+</div></div>
+<h2>8. Notes</h2><ul><li>Results folder: /home/interns/Desktop/layer/identity_layers/outputs/stage_b_preservation_checkpoint_250</li><li>Runs collected: 8</li><li>Missing artifacts: 0</li></ul>
+</main></body></html>

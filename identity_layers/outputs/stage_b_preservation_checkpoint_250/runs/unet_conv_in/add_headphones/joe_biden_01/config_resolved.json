@@ -1,0 +1,98 @@
+{
+  "config": {
+    "checkpoint_selection": {
+      "enabled": true,
+      "max_combined_disp_px": 5.0,
+      "min_input_psnr": 26.0,
+      "min_input_ssim": 0.97,
+      "min_iteration": 10,
+      "score": "Z_increase_from_initial",
+      "use_best_valid_for_final": true
+    },
+    "final_edit_guidance_scale": 7.5,
+    "final_edit_image_guidance_scale": 1.5,
+    "final_edit_num_inference_steps": 20,
+    "final_edit_seed": 1234,
+    "generate_final_edits": true,
+    "geometry": {
+      "components": {
+        "dct": {
+          "enabled": true
+        },
+        "delaunay": {
+          "enabled": true
+        },
+        "fft_phase": {
+          "enabled": false
+        },
+        "rolling": {
+          "enabled": true
+        },
+        "tps": {
+          "enabled": true
+        }
+      },
+      "init": "small_random",
+      "init_fraction": 0.03,
+      "limits": {
+        "dct_px_limit": 1.5,
+        "delaunay_px_limit": 3.5,
+        "fft_phase_limit_rad": 0.0,
+        "rolling_px_limit": 2.0,
+        "tps_px_limit": 3.0
+      },
+      "max_combined_disp_px": 5.0,
+      "sizes": {
+        "dct_size": 4,
+        "delaunay_size": 5,
+        "edge_falloff_px": 16.0,
+        "fft_phase_size": 8,
+        "tps_size": 5
+      }
+    },
+    "image_ids": [
+      "barack_obama_01",
+      "joe_biden_01",
+      "michelle_obama_01",
+      "kamala_harris_01"
+    ],
+    "input_preservation_weight": 1.0,
+    "iterations": 250,
+    "layers": [
+      "unet.conv_in"
+    ],
+    "learning_rate": 0.018,
+    "max_cases": 4,
+    "prompts": [
+      "add headphones",
+      "add black sunglasses"
+    ],
+    "seed": 1234,
+    "timestep_index": 6
+  },
+  "image_row": {
+    "identity_id": "joe_biden",
+    "image_id": "joe_biden_01",
+    "image_path": "/home/interns/Desktop/layer/identity_layers/datasets/wikimedia_identity_probe/images/joe_biden/joe_biden_01.jpg",
+    "notes": "free_media_resized_512_no_face_alignment",
+    "source": "wikimedia_commons",
+    "split": "probe"
+  },
+  "layer_name": "unet.conv_in",
+  "loss": "loss = -Z + 1 * MSE(perturbed, original)",
+  "objective": "Z = 1 - cosine_similarity(pool(layer(original)), pool(layer(perturbed)))",
+  "package_versions": {
+    "accelerate": "1.14.0",
+    "cuda_available": true,
+    "cuda_version": "12.1",
+    "diffusers": "0.38.0",
+    "git_commit": "2ef1bb1de3f6702be7e87d93f08b980357326243",
+    "gpu_name": "NVIDIA RTX A6000",
+    "matplotlib": "3.10.9",
+    "numpy": "2.2.6",
+    "pillow": "12.2.0",
+    "torch": "2.5.1+cu121",
+    "transformers": "5.12.1"
+  },
+  "prompt": "add headphones"
+}
