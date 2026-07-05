@@ -1,0 +1,46 @@
+{
+  "phase": "A7_deeper_modified_gradient_probe",
+  "notes": "Focused diagnostic after Stage B unet.conv_in produced only weak metric-level effects. This is not a full attack run.",
+  "layers": [
+    "vae_image_latent",
+    "unet.conv_in",
+    "unet.mid_block",
+    "unet.up_blocks.0"
+  ],
+  "objective_variants": [
+    "pooled_cosine",
+    "mean_std_cosine",
+    "normalized_activation_mse"
+  ],
+  "prompts": [
+    "add black sunglasses",
+    "add headphones"
+  ],
+  "image_ids": [
+    "barack_obama_01",
+    "joe_biden_01",
+    "michelle_obama_01",
+    "kamala_harris_01"
+  ],
+  "max_layers": 4,
+  "max_cases": 4,
+  "timestep_index": 6,
+  "steps": 8,
+  "learning_rate": 0.02,
+  "geometry": {
+    "seed": 1234,
+    "init": "small_random",
+    "init_fraction": 0.03,
+    "tps_enabled": true,
+    "delaunay_enabled": true,
+    "rolling_enabled": true,
+    "dct_enabled": true,
+    "fft_phase_enabled": false,
+    "tps_px_limit": 3.0,
+    "delaunay_px_limit": 3.5,
+    "rolling_px_limit": 2.0,
+    "dct_px_limit": 1.5,
+    "fft_phase_limit_rad": 0.0,
+    "max_combined_disp_px": 5.0
+  }
+}

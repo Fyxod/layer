@@ -22,6 +22,9 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--extraction-dir", type=Path, default=None)
     parser.add_argument("--output-dir", type=Path, default=None)
     parser.add_argument("--layers", default=None, help="Comma-separated layer names. Defaults to ranked top candidates.")
+    parser.add_argument("--image-ids", default=None, help="Comma-separated image IDs.")
+    parser.add_argument("--prompts", default=None, help="Comma-separated prompts. Overrides --prompt and config prompts.")
+    parser.add_argument("--objective-variants", default=None, help="Comma-separated objective variants.")
     parser.add_argument("--max-layers", type=int, default=None)
     parser.add_argument("--max-cases", type=int, default=None)
     parser.add_argument("--prompt", default=None)
@@ -44,6 +47,9 @@ def main() -> None:
         extraction_dir=extraction_dir,
         output_dir=output_dir,
         explicit_layers=_split_csv(args.layers) or config.get("layers"),
+        explicit_image_ids=_split_csv(args.image_ids) or config.get("image_ids"),
+        prompts=_split_csv(args.prompts) or config.get("prompts"),
+        objective_variants=_split_csv(args.objective_variants) or config.get("objective_variants"),
         max_layers=args.max_layers if args.max_layers is not None else int(config.get("max_layers", 5)),
         max_cases=args.max_cases if args.max_cases is not None else int(config.get("max_cases", 3)),
         prompt=args.prompt or config.get("prompt", "add black sunglasses"),
