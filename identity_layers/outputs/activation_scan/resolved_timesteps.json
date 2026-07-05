@@ -1,0 +1,32 @@
+{
+  "note": "Scheduler timesteps are resolved by diffusers at runtime; timestep_index selects from this list.",
+  "num_inference_steps": 20,
+  "resolved_scheduler_timesteps": [
+    999,
+    946,
+    893,
+    841,
+    788,
+    736,
+    683,
+    630,
+    578,
+    525,
+    473,
+    420,
+    368,
+    315,
+    262,
+    210,
+    157,
+    105,
+    52,
+    0
+  ],
+  "selected_timestep_indices": [
+    3,
+    6,
+    10,
+    14
+  ]
+}

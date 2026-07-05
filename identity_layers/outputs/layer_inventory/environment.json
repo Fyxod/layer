@@ -1,0 +1,17 @@
+{
+  "device": "cuda",
+  "mat_root_required": true,
+  "package_versions": {
+    "accelerate": "1.14.0",
+    "cuda_available": true,
+    "cuda_version": "12.1",
+    "diffusers": "0.38.0",
+    "git_commit": "ba318cf0af1f9cb11bdc784db40546e68ef4456e",
+    "gpu_name": "NVIDIA RTX A6000",
+    "matplotlib": "3.10.9",
+    "numpy": "2.2.6",
+    "pillow": "12.2.0",
+    "torch": "2.5.1+cu121",
+    "transformers": "5.12.1"
+  }
+}

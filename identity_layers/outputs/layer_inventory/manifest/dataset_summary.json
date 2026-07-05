@@ -1,0 +1,27 @@
+{
+  "dataset_source": "explicit_manifest",
+  "identity_ids": [
+    "angela_merkel",
+    "barack_obama",
+    "donald_trump",
+    "elon_musk",
+    "emmanuel_macron",
+    "greta_thunberg",
+    "hillary_clinton",
+    "jacinda_ardern",
+    "joe_biden",
+    "justin_trudeau",
+    "kamala_harris",
+    "malala_yousafzai",
+    "michelle_obama",
+    "narendra_modi",
+    "rishi_sunak"
+  ],
+  "manifest_path": "/home/interns/Desktop/layer/identity_layers/datasets/wikimedia_identity_probe/identity_manifest.csv",
+  "num_different_identity_pairs": 945,
+  "num_identities": 15,
+  "num_images": 45,
+  "num_same_identity_pairs": 45,
+  "preferred_dataset_size_met": true,
+  "warning": null
+}

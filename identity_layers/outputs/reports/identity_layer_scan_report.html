@@ -1,0 +1,79 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>InstructPix2Pix Identity Layer Scan</title>
+<style>
+body { font-family: Inter, Arial, sans-serif; max-width: 1100px; margin: 32px auto; line-height: 1.45; color: #1f2937; }
+h1, h2 { color: #111827; }
+table { border-collapse: collapse; width: 100%; font-size: 13px; }
+th, td { border: 1px solid #d1d5db; padding: 6px 8px; vertical-align: top; }
+th { background: #f3f4f6; }
+figure { border: 1px solid #e5e7eb; padding: 12px; border-radius: 10px; margin: 18px 0; }
+img { max-width: 100%; display: block; margin: 0 auto; }
+code { background: #f3f4f6; padding: 1px 4px; border-radius: 4px; }
+</style></head><body>
+<h1>InstructPix2Pix Identity Layer Scan</h1>
+<p>Milestone 1 scans frozen InstructPix2Pix internal activations for identity-separable layers. This is not a geometry attack and does not modify model weights.</p>
+<h2>Run summary</h2>
+<ul>
+<li>Model: <code>timbrooks/instruct-pix2pix</code></li>
+<li>Inventory candidates: 415</li>
+<li>Recommended initial layers: 35</li>
+<li>Extracted embeddings: 11160</li>
+<li>Layer/prompt/timestep scores: 248</li>
+</ul>
+<h2>Ranked layers</h2>
+<table><thead><tr><th>rank</th><th>layer</th><th>rank score</th><th>mean separation</th><th>mean AUC</th><th>prompt instability</th><th>timestep instability</th></tr></thead><tbody>
+<tr><td>1</td><td><code>vae_image_latent</code></td><td>0.5786</td><td>0.0163</td><td>0.5623</td><td>0.0000</td><td>0.0000</td></tr>
+<tr><td>2</td><td><code>unet.conv_in</code></td><td>0.5598</td><td>0.0124</td><td>0.5476</td><td>0.0000</td><td>0.0002</td></tr>
+<tr><td>3</td><td><code>unet.up_blocks.0</code></td><td>0.5578</td><td>0.0002</td><td>0.5578</td><td>0.0000</td><td>0.0002</td></tr>
+<tr><td>4</td><td><code>unet.up_blocks.1.attentions.1.transformer_blocks.0</code></td><td>0.5501</td><td>0.0001</td><td>0.5501</td><td>0.0000</td><td>0.0001</td></tr>
+<tr><td>5</td><td><code>unet.mid_block</code></td><td>0.5495</td><td>0.0002</td><td>0.5495</td><td>0.0000</td><td>0.0002</td></tr>
+<tr><td>6</td><td><code>unet.down_blocks.0.attentions.1.transformer_blocks.0.ff.net.1</code></td><td>0.5483</td><td>0.0001</td><td>0.5483</td><td>0.0000</td><td>0.0000</td></tr>
+<tr><td>7</td><td><code>unet.down_blocks.0.attentions.0.transformer_blocks.0.attn2.to_out.0</code></td><td>0.5474</td><td>0.0000</td><td>0.5474</td><td>0.0000</td><td>0.0000</td></tr>
+<tr><td>8</td><td><code>unet.down_blocks.3</code></td><td>0.5441</td><td>0.0001</td><td>0.5441</td><td>0.0000</td><td>0.0001</td></tr>
+<tr><td>9</td><td><code>unet.up_blocks.1.attentions.0.transformer_blocks.0.norm2</code></td><td>0.5441</td><td>0.0001</td><td>0.5441</td><td>0.0000</td><td>0.0001</td></tr>
+<tr><td>10</td><td><code>unet.up_blocks.3.attentions.2.transformer_blocks.0.norm3</code></td><td>0.5438</td><td>0.0001</td><td>0.5438</td><td>0.0000</td><td>0.0001</td></tr>
+<tr><td>11</td><td><code>unet.up_blocks.3</code></td><td>0.5430</td><td>0.0002</td><td>0.5429</td><td>0.0000</td><td>0.0000</td></tr>
+<tr><td>12</td><td><code>unet.down_blocks.2</code></td><td>0.5425</td><td>0.0001</td><td>0.5425</td><td>0.0000</td><td>0.0001</td></tr>
+<tr><td>13</td><td><code>unet.down_blocks.2.attentions.1.transformer_blocks.0.ff</code></td><td>0.5424</td><td>0.0001</td><td>0.5424</td><td>0.0000</td><td>0.0001</td></tr>
+<tr><td>14</td><td><code>unet.down_blocks.1.attentions.1.transformer_blocks.0.ff.net.0</code></td><td>0.5419</td><td>0.0000</td><td>0.5419</td><td>0.0000</td><td>0.0000</td></tr>
+<tr><td>15</td><td><code>unet.up_blocks.3.attentions.2.transformer_blocks.0.norm1</code></td><td>0.5419</td><td>0.0003</td><td>0.5417</td><td>0.0000</td><td>0.0002</td></tr>
+<tr><td>16</td><td><code>unet.down_blocks.0</code></td><td>0.5410</td><td>0.0001</td><td>0.5410</td><td>0.0000</td><td>0.0000</td></tr>
+<tr><td>17</td><td><code>unet.up_blocks.1.attentions.2.transformer_blocks.0.ff.net.2</code></td><td>0.5405</td><td>0.0000</td><td>0.5405</td><td>0.0000</td><td>0.0000</td></tr>
+<tr><td>18</td><td><code>unet.up_blocks.1.attentions.2.transformer_blocks.0.attn1.to_out.0</code></td><td>0.5394</td><td>0.0000</td><td>0.5393</td><td>0.0000</td><td>0.0000</td></tr>
+<tr><td>19</td><td><code>unet.down_blocks.2.attentions.1.transformer_blocks.0.attn1</code></td><td>0.5391</td><td>0.0001</td><td>0.5391</td><td>0.0000</td><td>0.0001</td></tr>
+<tr><td>20</td><td><code>unet.up_blocks.1</code></td><td>0.5385</td><td>0.0001</td><td>0.5384</td><td>0.0000</td><td>0.0000</td></tr>
+</tbody></table>
+<h2>Top identity-separable layer/timestep rows</h2>
+<table><thead><tr><th>rank</th><th>layer</th><th>prompt</th><th>timestep</th><th>separation</th><th>AUC</th></tr></thead><tbody>
+<tr><td>1</td><td><code>vae_image_latent</code></td><td>add black sunglasses</td><td>3</td><td>0.0163</td><td>0.5623</td></tr>
+<tr><td>2</td><td><code>vae_image_latent</code></td><td>add black sunglasses</td><td>6</td><td>0.0163</td><td>0.5623</td></tr>
+<tr><td>3</td><td><code>vae_image_latent</code></td><td>add black sunglasses</td><td>10</td><td>0.0163</td><td>0.5623</td></tr>
+<tr><td>4</td><td><code>vae_image_latent</code></td><td>add black sunglasses</td><td>14</td><td>0.0163</td><td>0.5623</td></tr>
+<tr><td>5</td><td><code>vae_image_latent</code></td><td>add headphones</td><td>3</td><td>0.0163</td><td>0.5623</td></tr>
+<tr><td>6</td><td><code>vae_image_latent</code></td><td>add headphones</td><td>6</td><td>0.0163</td><td>0.5623</td></tr>
+<tr><td>7</td><td><code>vae_image_latent</code></td><td>add headphones</td><td>10</td><td>0.0163</td><td>0.5623</td></tr>
+<tr><td>8</td><td><code>vae_image_latent</code></td><td>add headphones</td><td>14</td><td>0.0163</td><td>0.5623</td></tr>
+<tr><td>9</td><td><code>unet.conv_in</code></td><td>add black sunglasses</td><td>6</td><td>0.0126</td><td>0.5479</td></tr>
+<tr><td>10</td><td><code>unet.conv_in</code></td><td>add headphones</td><td>6</td><td>0.0126</td><td>0.5479</td></tr>
+<tr><td>11</td><td><code>unet.conv_in</code></td><td>add black sunglasses</td><td>3</td><td>0.0125</td><td>0.5478</td></tr>
+<tr><td>12</td><td><code>unet.conv_in</code></td><td>add headphones</td><td>3</td><td>0.0125</td><td>0.5478</td></tr>
+<tr><td>13</td><td><code>unet.conv_in</code></td><td>add black sunglasses</td><td>10</td><td>0.0125</td><td>0.5473</td></tr>
+<tr><td>14</td><td><code>unet.conv_in</code></td><td>add headphones</td><td>10</td><td>0.0125</td><td>0.5473</td></tr>
+<tr><td>15</td><td><code>unet.conv_in</code></td><td>add black sunglasses</td><td>14</td><td>0.0121</td><td>0.5474</td></tr>
+<tr><td>16</td><td><code>unet.conv_in</code></td><td>add headphones</td><td>14</td><td>0.0121</td><td>0.5474</td></tr>
+<tr><td>17</td><td><code>unet.up_blocks.0</code></td><td>add black sunglasses</td><td>3</td><td>0.0006</td><td>0.5389</td></tr>
+<tr><td>18</td><td><code>unet.up_blocks.3.attentions.2.transformer_blocks.0.norm1</code></td><td>add black sunglasses</td><td>3</td><td>0.0005</td><td>0.5460</td></tr>
+<tr><td>19</td><td><code>unet.mid_block</code></td><td>add black sunglasses</td><td>3</td><td>0.0005</td><td>0.5602</td></tr>
+<tr><td>20</td><td><code>unet.up_blocks.3.attentions.2.transformer_blocks.0.norm1</code></td><td>add headphones</td><td>3</td><td>0.0005</td><td>0.5461</td></tr>
+<tr><td>21</td><td><code>unet.mid_block</code></td><td>add headphones</td><td>3</td><td>0.0005</td><td>0.5589</td></tr>
+<tr><td>22</td><td><code>unet.up_blocks.3.attentions.2.transformer_blocks.0.norm1</code></td><td>add headphones</td><td>6</td><td>0.0004</td><td>0.5419</td></tr>
+<tr><td>23</td><td><code>unet.up_blocks.3.attentions.2.transformer_blocks.0.norm1</code></td><td>add black sunglasses</td><td>6</td><td>0.0004</td><td>0.5418</td></tr>
+<tr><td>24</td><td><code>unet.up_blocks.0</code></td><td>add headphones</td><td>3</td><td>0.0004</td><td>0.5412</td></tr>
+<tr><td>25</td><td><code>unet.up_blocks.1.attentions.1.transformer_blocks.0</code></td><td>add black sunglasses</td><td>3</td><td>0.0003</td><td>0.5487</td></tr>
+</tbody></table>
+<h2>Graphs</h2>
+<figure><img src="graphs/identity_separation_by_layer.png" alt="identity_separation_by_layer"><figcaption>identity_separation_by_layer</figcaption></figure>
+<figure><img src="graphs/identity_auc_by_layer.png" alt="identity_auc_by_layer"><figcaption>identity_auc_by_layer</figcaption></figure>
+<figure><img src="graphs/same_vs_different_distributions.png" alt="same_vs_different_distributions"><figcaption>same_vs_different_distributions</figcaption></figure>
+<figure><img src="graphs/layer_timestep_heatmap.png" alt="layer_timestep_heatmap"><figcaption>layer_timestep_heatmap</figcaption></figure>
+</body></html>

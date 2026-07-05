@@ -1,0 +1,64 @@
+$ bash
+interns@workstation003:~/Desktop/layer$ git init
+hint: Using 'master' as the name for the initial branch. This default branch name
+hint: is subject to change. To configure the initial branch name to use in all
+hint: of your new repositories, which will suppress this warning, call:
+hint: 
+hint:   git config --global init.defaultBranch <name>
+hint: 
+hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+hint: 'development'. The just-created branch can be renamed via this command:
+hint: 
+hint:   git branch -m <name>
+Initialized empty Git repository in /home/interns/Desktop/layer/.git/
+interns@workstation003:~/Desktop/layer$ git remote add origin https://github.com/Fyxod/layer.git
+interns@workstation003:~/Desktop/layer$ git checkout -b main
+Switched to a new branch 'main'
+interns@workstation003:~/Desktop/layer$ git pull origin main
+remote: Enumerating objects: 147, done.
+remote: Counting objects: 100% (147/147), done.
+remote: Compressing objects: 100% (122/122), done.
+remote: Total 147 (delta 26), reused 143 (delta 22), pack-reused 0 (from 0)
+Receiving objects: 100% (147/147), 2.34 MiB | 5.65 MiB/s, done.
+Resolving deltas: 100% (26/26), done.
+From https://github.com/Fyxod/layer
+ * branch            main       -> FETCH_HEAD
+ * [new branch]      main       -> origin/main
+interns@workstation003:~/Desktop/layer$ cd /home/interns/Desktop/layer
+git pull origin main
+
+$HOME/.local/bin/micromamba run -p /home/interns/Desktop/mat/.micromamba/envs/mat-a6000 \
+  python -m layer.scripts.inventory_instruct_layers \
+  --root /home/interns/Desktop/layer \
+  --mat-root /home/interns/Desktop/mat
+From https://github.com/Fyxod/layer
+ * branch            main       -> FETCH_HEAD
+Already up to date.
+Loading pipeline components...:   0%|                                                                                                                    | 0/6 [00:00<?, ?it/s]2026-07-05 14:59:31.990787900 [W:onnxruntime:Default, device_discovery.cc:164 DiscoverDevicesForPlatform] GPU device discovery failed: device_discovery.cc:89 ReadFileContents Failed to open file: "/sys/class/drm/card0/device/vendor"
+Loading weights: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 196/196 [00:00<00:00, 2105.96it/s]
+Loading pipeline components...: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████| 6/6 [00:01<00:00,  5.10it/s]
+Wrote layer inventory to: /home/interns/Desktop/layer/identity_layers/outputs/layer_inventory
+Candidates: 415
+Recommended initial layers: 35
+interns@workstation003:~/Desktop/layer$ $HOME/.local/bin/micromamba run -p /home/interns/Desktop/mat/.micromamba/envs/mat-a6000 \
+  python -m layer.scripts.extract_identity_activations \
+  --root /home/interns/Desktop/layer \
+  --mat-root /home/interns/Desktop/mat
+Loading pipeline components...:   0%|                                                                                                                    | 0/6 [00:00<?, ?it/s]2026-07-05 15:01:31.882102250 [W:onnxruntime:Default, device_discovery.cc:164 DiscoverDevicesForPlatform] GPU device discovery failed: device_discovery.cc:89 ReadFileContents Failed to open file: "/sys/class/drm/card0/device/vendor"
+Loading weights: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 196/196 [00:00<00:00, 2000.85it/s]
+Loading pipeline components...: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████| 6/6 [00:01<00:00,  5.34it/s]
+Wrote pooled activations to: /home/interns/Desktop/layer/identity_layers/outputs/activation_scan
+Embeddings: 11160
+Layers: 35
+interns@workstation003:~/Desktop/layer$ $HOME/.local/bin/micromamba run -p /home/interns/Desktop/mat/.micromamba/envs/mat-a6000 \
+  python -m layer.scripts.score_identity_layers \
+  --root /home/interns/Desktop/layer
+Wrote identity scores to: /home/interns/Desktop/layer/identity_layers/outputs/identity_scores
+Pair scores: 245520
+Layer/prompt/timestep rows: 248
+interns@workstation003:~/Desktop/layer$ $HOME/.local/bin/micromamba run -p /home/interns/Desktop/mat/.micromamba/envs/mat-a6000 \
+  python -m layer.scripts.summarize_identity_layer_scan \
+  --root /home/interns/Desktop/layer
+Report HTML: /home/interns/Desktop/layer/identity_layers/outputs/reports/identity_layer_scan_report.html
+Report MD: /home/interns/Desktop/layer/identity_layers/outputs/reports/identity_layer_scan_report.md
+interns@workstation003:~/Desktop/layer$ 

@@ -1,0 +1,281 @@
+prompt,timestep_index,layer_name,seed,num_inference_steps,guidance_scale,image_guidance_scale,text_embedding_fixed,noise_tensor_fixed,scheduler_fixed,model_precision
+add black sunglasses,3,unet.up_blocks.2,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,3,unet.conv_in,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,3,unet.down_blocks.3,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,3,unet.down_blocks.0,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,3,unet.down_blocks.1,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,3,unet.down_blocks.2,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,3,unet.up_blocks.0,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,3,unet.up_blocks.3,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,3,unet.mid_block,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,3,unet.up_blocks.1,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,3,vae_image_latent,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,3,unet.down_blocks.0.attentions.0.transformer_blocks,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,3,unet.down_blocks.0.attentions.0.transformer_blocks.0.attn2.to_out.0,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,3,unet.down_blocks.0.attentions.1.transformer_blocks.0.attn1.to_out,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,3,unet.down_blocks.0.attentions.1.transformer_blocks.0.ff.net.1,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,3,unet.down_blocks.1.attentions.0.transformer_blocks.0.attn2.to_v,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,3,unet.down_blocks.1.attentions.1.transformer_blocks.0.attn1.to_k,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,3,unet.down_blocks.1.attentions.1.transformer_blocks.0.ff.net.0,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,3,unet.down_blocks.2.attentions.0.transformer_blocks.0.attn2.to_q,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,3,unet.down_blocks.2.attentions.1.transformer_blocks.0.attn1,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,3,unet.down_blocks.2.attentions.1.transformer_blocks.0.ff,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,3,unet.up_blocks.1.attentions.0.transformer_blocks.0.norm2,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,3,unet.up_blocks.1.attentions.1.transformer_blocks.0,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,3,unet.up_blocks.1.attentions.1.transformer_blocks.0.attn2.to_out.1,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,3,unet.up_blocks.1.attentions.2.transformer_blocks.0.attn1.to_out.0,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,3,unet.up_blocks.1.attentions.2.transformer_blocks.0.ff.net.2,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,3,unet.up_blocks.2.attentions.0.transformer_blocks.0.attn2.to_out,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,3,unet.up_blocks.2.attentions.1.transformer_blocks.0.attn1.to_v,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,3,unet.up_blocks.2.attentions.1.transformer_blocks.0.ff.net.0.proj,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,3,unet.up_blocks.2.attentions.2.transformer_blocks.0.attn2.to_k,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,3,unet.up_blocks.3.attentions.0.transformer_blocks.0.attn1.to_q,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,3,unet.up_blocks.3.attentions.0.transformer_blocks.0.ff.net,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,3,unet.up_blocks.3.attentions.1.transformer_blocks.0.attn2,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,3,unet.up_blocks.3.attentions.2.transformer_blocks.0.norm1,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,3,unet.up_blocks.3.attentions.2.transformer_blocks.0.norm3,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,6,unet.up_blocks.2,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,6,unet.conv_in,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,6,unet.down_blocks.3,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,6,unet.down_blocks.0,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,6,unet.down_blocks.1,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,6,unet.down_blocks.2,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,6,unet.up_blocks.0,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,6,unet.up_blocks.3,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,6,unet.mid_block,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,6,unet.up_blocks.1,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,6,vae_image_latent,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,6,unet.down_blocks.0.attentions.0.transformer_blocks,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,6,unet.down_blocks.0.attentions.0.transformer_blocks.0.attn2.to_out.0,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,6,unet.down_blocks.0.attentions.1.transformer_blocks.0.attn1.to_out,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,6,unet.down_blocks.0.attentions.1.transformer_blocks.0.ff.net.1,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,6,unet.down_blocks.1.attentions.0.transformer_blocks.0.attn2.to_v,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,6,unet.down_blocks.1.attentions.1.transformer_blocks.0.attn1.to_k,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,6,unet.down_blocks.1.attentions.1.transformer_blocks.0.ff.net.0,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,6,unet.down_blocks.2.attentions.0.transformer_blocks.0.attn2.to_q,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,6,unet.down_blocks.2.attentions.1.transformer_blocks.0.attn1,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,6,unet.down_blocks.2.attentions.1.transformer_blocks.0.ff,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,6,unet.up_blocks.1.attentions.0.transformer_blocks.0.norm2,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,6,unet.up_blocks.1.attentions.1.transformer_blocks.0,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,6,unet.up_blocks.1.attentions.1.transformer_blocks.0.attn2.to_out.1,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,6,unet.up_blocks.1.attentions.2.transformer_blocks.0.attn1.to_out.0,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,6,unet.up_blocks.1.attentions.2.transformer_blocks.0.ff.net.2,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,6,unet.up_blocks.2.attentions.0.transformer_blocks.0.attn2.to_out,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,6,unet.up_blocks.2.attentions.1.transformer_blocks.0.attn1.to_v,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,6,unet.up_blocks.2.attentions.1.transformer_blocks.0.ff.net.0.proj,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,6,unet.up_blocks.2.attentions.2.transformer_blocks.0.attn2.to_k,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,6,unet.up_blocks.3.attentions.0.transformer_blocks.0.attn1.to_q,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,6,unet.up_blocks.3.attentions.0.transformer_blocks.0.ff.net,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,6,unet.up_blocks.3.attentions.1.transformer_blocks.0.attn2,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,6,unet.up_blocks.3.attentions.2.transformer_blocks.0.norm1,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,6,unet.up_blocks.3.attentions.2.transformer_blocks.0.norm3,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,10,unet.up_blocks.2,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,10,unet.conv_in,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,10,unet.down_blocks.3,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,10,unet.down_blocks.0,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,10,unet.down_blocks.1,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,10,unet.down_blocks.2,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,10,unet.up_blocks.0,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,10,unet.up_blocks.3,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,10,unet.mid_block,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,10,unet.up_blocks.1,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,10,vae_image_latent,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,10,unet.down_blocks.0.attentions.0.transformer_blocks,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,10,unet.down_blocks.0.attentions.0.transformer_blocks.0.attn2.to_out.0,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,10,unet.down_blocks.0.attentions.1.transformer_blocks.0.attn1.to_out,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,10,unet.down_blocks.0.attentions.1.transformer_blocks.0.ff.net.1,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,10,unet.down_blocks.1.attentions.0.transformer_blocks.0.attn2.to_v,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,10,unet.down_blocks.1.attentions.1.transformer_blocks.0.attn1.to_k,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,10,unet.down_blocks.1.attentions.1.transformer_blocks.0.ff.net.0,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,10,unet.down_blocks.2.attentions.0.transformer_blocks.0.attn2.to_q,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,10,unet.down_blocks.2.attentions.1.transformer_blocks.0.attn1,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,10,unet.down_blocks.2.attentions.1.transformer_blocks.0.ff,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,10,unet.up_blocks.1.attentions.0.transformer_blocks.0.norm2,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,10,unet.up_blocks.1.attentions.1.transformer_blocks.0,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,10,unet.up_blocks.1.attentions.1.transformer_blocks.0.attn2.to_out.1,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,10,unet.up_blocks.1.attentions.2.transformer_blocks.0.attn1.to_out.0,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,10,unet.up_blocks.1.attentions.2.transformer_blocks.0.ff.net.2,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,10,unet.up_blocks.2.attentions.0.transformer_blocks.0.attn2.to_out,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,10,unet.up_blocks.2.attentions.1.transformer_blocks.0.attn1.to_v,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,10,unet.up_blocks.2.attentions.1.transformer_blocks.0.ff.net.0.proj,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,10,unet.up_blocks.2.attentions.2.transformer_blocks.0.attn2.to_k,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,10,unet.up_blocks.3.attentions.0.transformer_blocks.0.attn1.to_q,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,10,unet.up_blocks.3.attentions.0.transformer_blocks.0.ff.net,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,10,unet.up_blocks.3.attentions.1.transformer_blocks.0.attn2,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,10,unet.up_blocks.3.attentions.2.transformer_blocks.0.norm1,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,10,unet.up_blocks.3.attentions.2.transformer_blocks.0.norm3,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,14,unet.up_blocks.2,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,14,unet.conv_in,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,14,unet.down_blocks.3,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,14,unet.down_blocks.0,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,14,unet.down_blocks.1,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,14,unet.down_blocks.2,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,14,unet.up_blocks.0,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,14,unet.up_blocks.3,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,14,unet.mid_block,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,14,unet.up_blocks.1,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,14,vae_image_latent,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,14,unet.down_blocks.0.attentions.0.transformer_blocks,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,14,unet.down_blocks.0.attentions.0.transformer_blocks.0.attn2.to_out.0,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,14,unet.down_blocks.0.attentions.1.transformer_blocks.0.attn1.to_out,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,14,unet.down_blocks.0.attentions.1.transformer_blocks.0.ff.net.1,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,14,unet.down_blocks.1.attentions.0.transformer_blocks.0.attn2.to_v,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,14,unet.down_blocks.1.attentions.1.transformer_blocks.0.attn1.to_k,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,14,unet.down_blocks.1.attentions.1.transformer_blocks.0.ff.net.0,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,14,unet.down_blocks.2.attentions.0.transformer_blocks.0.attn2.to_q,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,14,unet.down_blocks.2.attentions.1.transformer_blocks.0.attn1,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,14,unet.down_blocks.2.attentions.1.transformer_blocks.0.ff,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,14,unet.up_blocks.1.attentions.0.transformer_blocks.0.norm2,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,14,unet.up_blocks.1.attentions.1.transformer_blocks.0,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,14,unet.up_blocks.1.attentions.1.transformer_blocks.0.attn2.to_out.1,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,14,unet.up_blocks.1.attentions.2.transformer_blocks.0.attn1.to_out.0,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,14,unet.up_blocks.1.attentions.2.transformer_blocks.0.ff.net.2,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,14,unet.up_blocks.2.attentions.0.transformer_blocks.0.attn2.to_out,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,14,unet.up_blocks.2.attentions.1.transformer_blocks.0.attn1.to_v,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,14,unet.up_blocks.2.attentions.1.transformer_blocks.0.ff.net.0.proj,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,14,unet.up_blocks.2.attentions.2.transformer_blocks.0.attn2.to_k,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,14,unet.up_blocks.3.attentions.0.transformer_blocks.0.attn1.to_q,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,14,unet.up_blocks.3.attentions.0.transformer_blocks.0.ff.net,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,14,unet.up_blocks.3.attentions.1.transformer_blocks.0.attn2,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,14,unet.up_blocks.3.attentions.2.transformer_blocks.0.norm1,1234,20,7.5,1.5,True,True,True,float16
+add black sunglasses,14,unet.up_blocks.3.attentions.2.transformer_blocks.0.norm3,1234,20,7.5,1.5,True,True,True,float16
+add headphones,3,unet.up_blocks.2,1234,20,7.5,1.5,True,True,True,float16
+add headphones,3,unet.conv_in,1234,20,7.5,1.5,True,True,True,float16
+add headphones,3,unet.down_blocks.3,1234,20,7.5,1.5,True,True,True,float16
+add headphones,3,unet.down_blocks.0,1234,20,7.5,1.5,True,True,True,float16
+add headphones,3,unet.down_blocks.1,1234,20,7.5,1.5,True,True,True,float16
+add headphones,3,unet.down_blocks.2,1234,20,7.5,1.5,True,True,True,float16
+add headphones,3,unet.up_blocks.0,1234,20,7.5,1.5,True,True,True,float16
+add headphones,3,unet.up_blocks.3,1234,20,7.5,1.5,True,True,True,float16
+add headphones,3,unet.mid_block,1234,20,7.5,1.5,True,True,True,float16
+add headphones,3,unet.up_blocks.1,1234,20,7.5,1.5,True,True,True,float16
+add headphones,3,vae_image_latent,1234,20,7.5,1.5,True,True,True,float16
+add headphones,3,unet.down_blocks.0.attentions.0.transformer_blocks,1234,20,7.5,1.5,True,True,True,float16
+add headphones,3,unet.down_blocks.0.attentions.0.transformer_blocks.0.attn2.to_out.0,1234,20,7.5,1.5,True,True,True,float16
+add headphones,3,unet.down_blocks.0.attentions.1.transformer_blocks.0.attn1.to_out,1234,20,7.5,1.5,True,True,True,float16
+add headphones,3,unet.down_blocks.0.attentions.1.transformer_blocks.0.ff.net.1,1234,20,7.5,1.5,True,True,True,float16
+add headphones,3,unet.down_blocks.1.attentions.0.transformer_blocks.0.attn2.to_v,1234,20,7.5,1.5,True,True,True,float16
+add headphones,3,unet.down_blocks.1.attentions.1.transformer_blocks.0.attn1.to_k,1234,20,7.5,1.5,True,True,True,float16
+add headphones,3,unet.down_blocks.1.attentions.1.transformer_blocks.0.ff.net.0,1234,20,7.5,1.5,True,True,True,float16
+add headphones,3,unet.down_blocks.2.attentions.0.transformer_blocks.0.attn2.to_q,1234,20,7.5,1.5,True,True,True,float16
+add headphones,3,unet.down_blocks.2.attentions.1.transformer_blocks.0.attn1,1234,20,7.5,1.5,True,True,True,float16
+add headphones,3,unet.down_blocks.2.attentions.1.transformer_blocks.0.ff,1234,20,7.5,1.5,True,True,True,float16
+add headphones,3,unet.up_blocks.1.attentions.0.transformer_blocks.0.norm2,1234,20,7.5,1.5,True,True,True,float16
+add headphones,3,unet.up_blocks.1.attentions.1.transformer_blocks.0,1234,20,7.5,1.5,True,True,True,float16
+add headphones,3,unet.up_blocks.1.attentions.1.transformer_blocks.0.attn2.to_out.1,1234,20,7.5,1.5,True,True,True,float16
+add headphones,3,unet.up_blocks.1.attentions.2.transformer_blocks.0.attn1.to_out.0,1234,20,7.5,1.5,True,True,True,float16
+add headphones,3,unet.up_blocks.1.attentions.2.transformer_blocks.0.ff.net.2,1234,20,7.5,1.5,True,True,True,float16
+add headphones,3,unet.up_blocks.2.attentions.0.transformer_blocks.0.attn2.to_out,1234,20,7.5,1.5,True,True,True,float16
+add headphones,3,unet.up_blocks.2.attentions.1.transformer_blocks.0.attn1.to_v,1234,20,7.5,1.5,True,True,True,float16
+add headphones,3,unet.up_blocks.2.attentions.1.transformer_blocks.0.ff.net.0.proj,1234,20,7.5,1.5,True,True,True,float16
+add headphones,3,unet.up_blocks.2.attentions.2.transformer_blocks.0.attn2.to_k,1234,20,7.5,1.5,True,True,True,float16
+add headphones,3,unet.up_blocks.3.attentions.0.transformer_blocks.0.attn1.to_q,1234,20,7.5,1.5,True,True,True,float16
+add headphones,3,unet.up_blocks.3.attentions.0.transformer_blocks.0.ff.net,1234,20,7.5,1.5,True,True,True,float16
+add headphones,3,unet.up_blocks.3.attentions.1.transformer_blocks.0.attn2,1234,20,7.5,1.5,True,True,True,float16
+add headphones,3,unet.up_blocks.3.attentions.2.transformer_blocks.0.norm1,1234,20,7.5,1.5,True,True,True,float16
+add headphones,3,unet.up_blocks.3.attentions.2.transformer_blocks.0.norm3,1234,20,7.5,1.5,True,True,True,float16
+add headphones,6,unet.up_blocks.2,1234,20,7.5,1.5,True,True,True,float16
+add headphones,6,unet.conv_in,1234,20,7.5,1.5,True,True,True,float16
+add headphones,6,unet.down_blocks.3,1234,20,7.5,1.5,True,True,True,float16
+add headphones,6,unet.down_blocks.0,1234,20,7.5,1.5,True,True,True,float16
+add headphones,6,unet.down_blocks.1,1234,20,7.5,1.5,True,True,True,float16
+add headphones,6,unet.down_blocks.2,1234,20,7.5,1.5,True,True,True,float16
+add headphones,6,unet.up_blocks.0,1234,20,7.5,1.5,True,True,True,float16
+add headphones,6,unet.up_blocks.3,1234,20,7.5,1.5,True,True,True,float16
+add headphones,6,unet.mid_block,1234,20,7.5,1.5,True,True,True,float16
+add headphones,6,unet.up_blocks.1,1234,20,7.5,1.5,True,True,True,float16
+add headphones,6,vae_image_latent,1234,20,7.5,1.5,True,True,True,float16
+add headphones,6,unet.down_blocks.0.attentions.0.transformer_blocks,1234,20,7.5,1.5,True,True,True,float16
+add headphones,6,unet.down_blocks.0.attentions.0.transformer_blocks.0.attn2.to_out.0,1234,20,7.5,1.5,True,True,True,float16
+add headphones,6,unet.down_blocks.0.attentions.1.transformer_blocks.0.attn1.to_out,1234,20,7.5,1.5,True,True,True,float16
+add headphones,6,unet.down_blocks.0.attentions.1.transformer_blocks.0.ff.net.1,1234,20,7.5,1.5,True,True,True,float16
+add headphones,6,unet.down_blocks.1.attentions.0.transformer_blocks.0.attn2.to_v,1234,20,7.5,1.5,True,True,True,float16
+add headphones,6,unet.down_blocks.1.attentions.1.transformer_blocks.0.attn1.to_k,1234,20,7.5,1.5,True,True,True,float16
+add headphones,6,unet.down_blocks.1.attentions.1.transformer_blocks.0.ff.net.0,1234,20,7.5,1.5,True,True,True,float16
+add headphones,6,unet.down_blocks.2.attentions.0.transformer_blocks.0.attn2.to_q,1234,20,7.5,1.5,True,True,True,float16
+add headphones,6,unet.down_blocks.2.attentions.1.transformer_blocks.0.attn1,1234,20,7.5,1.5,True,True,True,float16
+add headphones,6,unet.down_blocks.2.attentions.1.transformer_blocks.0.ff,1234,20,7.5,1.5,True,True,True,float16
+add headphones,6,unet.up_blocks.1.attentions.0.transformer_blocks.0.norm2,1234,20,7.5,1.5,True,True,True,float16
+add headphones,6,unet.up_blocks.1.attentions.1.transformer_blocks.0,1234,20,7.5,1.5,True,True,True,float16
+add headphones,6,unet.up_blocks.1.attentions.1.transformer_blocks.0.attn2.to_out.1,1234,20,7.5,1.5,True,True,True,float16
+add headphones,6,unet.up_blocks.1.attentions.2.transformer_blocks.0.attn1.to_out.0,1234,20,7.5,1.5,True,True,True,float16
+add headphones,6,unet.up_blocks.1.attentions.2.transformer_blocks.0.ff.net.2,1234,20,7.5,1.5,True,True,True,float16
+add headphones,6,unet.up_blocks.2.attentions.0.transformer_blocks.0.attn2.to_out,1234,20,7.5,1.5,True,True,True,float16
+add headphones,6,unet.up_blocks.2.attentions.1.transformer_blocks.0.attn1.to_v,1234,20,7.5,1.5,True,True,True,float16
+add headphones,6,unet.up_blocks.2.attentions.1.transformer_blocks.0.ff.net.0.proj,1234,20,7.5,1.5,True,True,True,float16
+add headphones,6,unet.up_blocks.2.attentions.2.transformer_blocks.0.attn2.to_k,1234,20,7.5,1.5,True,True,True,float16
+add headphones,6,unet.up_blocks.3.attentions.0.transformer_blocks.0.attn1.to_q,1234,20,7.5,1.5,True,True,True,float16
+add headphones,6,unet.up_blocks.3.attentions.0.transformer_blocks.0.ff.net,1234,20,7.5,1.5,True,True,True,float16
+add headphones,6,unet.up_blocks.3.attentions.1.transformer_blocks.0.attn2,1234,20,7.5,1.5,True,True,True,float16
+add headphones,6,unet.up_blocks.3.attentions.2.transformer_blocks.0.norm1,1234,20,7.5,1.5,True,True,True,float16
+add headphones,6,unet.up_blocks.3.attentions.2.transformer_blocks.0.norm3,1234,20,7.5,1.5,True,True,True,float16
+add headphones,10,unet.up_blocks.2,1234,20,7.5,1.5,True,True,True,float16
+add headphones,10,unet.conv_in,1234,20,7.5,1.5,True,True,True,float16
+add headphones,10,unet.down_blocks.3,1234,20,7.5,1.5,True,True,True,float16
+add headphones,10,unet.down_blocks.0,1234,20,7.5,1.5,True,True,True,float16
+add headphones,10,unet.down_blocks.1,1234,20,7.5,1.5,True,True,True,float16
+add headphones,10,unet.down_blocks.2,1234,20,7.5,1.5,True,True,True,float16
+add headphones,10,unet.up_blocks.0,1234,20,7.5,1.5,True,True,True,float16
+add headphones,10,unet.up_blocks.3,1234,20,7.5,1.5,True,True,True,float16
+add headphones,10,unet.mid_block,1234,20,7.5,1.5,True,True,True,float16
+add headphones,10,unet.up_blocks.1,1234,20,7.5,1.5,True,True,True,float16
+add headphones,10,vae_image_latent,1234,20,7.5,1.5,True,True,True,float16
+add headphones,10,unet.down_blocks.0.attentions.0.transformer_blocks,1234,20,7.5,1.5,True,True,True,float16
+add headphones,10,unet.down_blocks.0.attentions.0.transformer_blocks.0.attn2.to_out.0,1234,20,7.5,1.5,True,True,True,float16
+add headphones,10,unet.down_blocks.0.attentions.1.transformer_blocks.0.attn1.to_out,1234,20,7.5,1.5,True,True,True,float16
+add headphones,10,unet.down_blocks.0.attentions.1.transformer_blocks.0.ff.net.1,1234,20,7.5,1.5,True,True,True,float16
+add headphones,10,unet.down_blocks.1.attentions.0.transformer_blocks.0.attn2.to_v,1234,20,7.5,1.5,True,True,True,float16
+add headphones,10,unet.down_blocks.1.attentions.1.transformer_blocks.0.attn1.to_k,1234,20,7.5,1.5,True,True,True,float16
+add headphones,10,unet.down_blocks.1.attentions.1.transformer_blocks.0.ff.net.0,1234,20,7.5,1.5,True,True,True,float16
+add headphones,10,unet.down_blocks.2.attentions.0.transformer_blocks.0.attn2.to_q,1234,20,7.5,1.5,True,True,True,float16
+add headphones,10,unet.down_blocks.2.attentions.1.transformer_blocks.0.attn1,1234,20,7.5,1.5,True,True,True,float16
+add headphones,10,unet.down_blocks.2.attentions.1.transformer_blocks.0.ff,1234,20,7.5,1.5,True,True,True,float16
+add headphones,10,unet.up_blocks.1.attentions.0.transformer_blocks.0.norm2,1234,20,7.5,1.5,True,True,True,float16
+add headphones,10,unet.up_blocks.1.attentions.1.transformer_blocks.0,1234,20,7.5,1.5,True,True,True,float16
+add headphones,10,unet.up_blocks.1.attentions.1.transformer_blocks.0.attn2.to_out.1,1234,20,7.5,1.5,True,True,True,float16
+add headphones,10,unet.up_blocks.1.attentions.2.transformer_blocks.0.attn1.to_out.0,1234,20,7.5,1.5,True,True,True,float16
+add headphones,10,unet.up_blocks.1.attentions.2.transformer_blocks.0.ff.net.2,1234,20,7.5,1.5,True,True,True,float16
+add headphones,10,unet.up_blocks.2.attentions.0.transformer_blocks.0.attn2.to_out,1234,20,7.5,1.5,True,True,True,float16
+add headphones,10,unet.up_blocks.2.attentions.1.transformer_blocks.0.attn1.to_v,1234,20,7.5,1.5,True,True,True,float16
+add headphones,10,unet.up_blocks.2.attentions.1.transformer_blocks.0.ff.net.0.proj,1234,20,7.5,1.5,True,True,True,float16
+add headphones,10,unet.up_blocks.2.attentions.2.transformer_blocks.0.attn2.to_k,1234,20,7.5,1.5,True,True,True,float16
+add headphones,10,unet.up_blocks.3.attentions.0.transformer_blocks.0.attn1.to_q,1234,20,7.5,1.5,True,True,True,float16
+add headphones,10,unet.up_blocks.3.attentions.0.transformer_blocks.0.ff.net,1234,20,7.5,1.5,True,True,True,float16
+add headphones,10,unet.up_blocks.3.attentions.1.transformer_blocks.0.attn2,1234,20,7.5,1.5,True,True,True,float16
+add headphones,10,unet.up_blocks.3.attentions.2.transformer_blocks.0.norm1,1234,20,7.5,1.5,True,True,True,float16
+add headphones,10,unet.up_blocks.3.attentions.2.transformer_blocks.0.norm3,1234,20,7.5,1.5,True,True,True,float16
+add headphones,14,unet.up_blocks.2,1234,20,7.5,1.5,True,True,True,float16
+add headphones,14,unet.conv_in,1234,20,7.5,1.5,True,True,True,float16
+add headphones,14,unet.down_blocks.3,1234,20,7.5,1.5,True,True,True,float16
+add headphones,14,unet.down_blocks.0,1234,20,7.5,1.5,True,True,True,float16
+add headphones,14,unet.down_blocks.1,1234,20,7.5,1.5,True,True,True,float16
+add headphones,14,unet.down_blocks.2,1234,20,7.5,1.5,True,True,True,float16
+add headphones,14,unet.up_blocks.0,1234,20,7.5,1.5,True,True,True,float16
+add headphones,14,unet.up_blocks.3,1234,20,7.5,1.5,True,True,True,float16
+add headphones,14,unet.mid_block,1234,20,7.5,1.5,True,True,True,float16
+add headphones,14,unet.up_blocks.1,1234,20,7.5,1.5,True,True,True,float16
+add headphones,14,vae_image_latent,1234,20,7.5,1.5,True,True,True,float16
+add headphones,14,unet.down_blocks.0.attentions.0.transformer_blocks,1234,20,7.5,1.5,True,True,True,float16
+add headphones,14,unet.down_blocks.0.attentions.0.transformer_blocks.0.attn2.to_out.0,1234,20,7.5,1.5,True,True,True,float16
+add headphones,14,unet.down_blocks.0.attentions.1.transformer_blocks.0.attn1.to_out,1234,20,7.5,1.5,True,True,True,float16
+add headphones,14,unet.down_blocks.0.attentions.1.transformer_blocks.0.ff.net.1,1234,20,7.5,1.5,True,True,True,float16
+add headphones,14,unet.down_blocks.1.attentions.0.transformer_blocks.0.attn2.to_v,1234,20,7.5,1.5,True,True,True,float16
+add headphones,14,unet.down_blocks.1.attentions.1.transformer_blocks.0.attn1.to_k,1234,20,7.5,1.5,True,True,True,float16
+add headphones,14,unet.down_blocks.1.attentions.1.transformer_blocks.0.ff.net.0,1234,20,7.5,1.5,True,True,True,float16
+add headphones,14,unet.down_blocks.2.attentions.0.transformer_blocks.0.attn2.to_q,1234,20,7.5,1.5,True,True,True,float16
+add headphones,14,unet.down_blocks.2.attentions.1.transformer_blocks.0.attn1,1234,20,7.5,1.5,True,True,True,float16
+add headphones,14,unet.down_blocks.2.attentions.1.transformer_blocks.0.ff,1234,20,7.5,1.5,True,True,True,float16
+add headphones,14,unet.up_blocks.1.attentions.0.transformer_blocks.0.norm2,1234,20,7.5,1.5,True,True,True,float16
+add headphones,14,unet.up_blocks.1.attentions.1.transformer_blocks.0,1234,20,7.5,1.5,True,True,True,float16
+add headphones,14,unet.up_blocks.1.attentions.1.transformer_blocks.0.attn2.to_out.1,1234,20,7.5,1.5,True,True,True,float16
+add headphones,14,unet.up_blocks.1.attentions.2.transformer_blocks.0.attn1.to_out.0,1234,20,7.5,1.5,True,True,True,float16
+add headphones,14,unet.up_blocks.1.attentions.2.transformer_blocks.0.ff.net.2,1234,20,7.5,1.5,True,True,True,float16
+add headphones,14,unet.up_blocks.2.attentions.0.transformer_blocks.0.attn2.to_out,1234,20,7.5,1.5,True,True,True,float16
+add headphones,14,unet.up_blocks.2.attentions.1.transformer_blocks.0.attn1.to_v,1234,20,7.5,1.5,True,True,True,float16
+add headphones,14,unet.up_blocks.2.attentions.1.transformer_blocks.0.ff.net.0.proj,1234,20,7.5,1.5,True,True,True,float16
+add headphones,14,unet.up_blocks.2.attentions.2.transformer_blocks.0.attn2.to_k,1234,20,7.5,1.5,True,True,True,float16
+add headphones,14,unet.up_blocks.3.attentions.0.transformer_blocks.0.attn1.to_q,1234,20,7.5,1.5,True,True,True,float16
+add headphones,14,unet.up_blocks.3.attentions.0.transformer_blocks.0.ff.net,1234,20,7.5,1.5,True,True,True,float16
+add headphones,14,unet.up_blocks.3.attentions.1.transformer_blocks.0.attn2,1234,20,7.5,1.5,True,True,True,float16
+add headphones,14,unet.up_blocks.3.attentions.2.transformer_blocks.0.norm1,1234,20,7.5,1.5,True,True,True,float16
+add headphones,14,unet.up_blocks.3.attentions.2.transformer_blocks.0.norm3,1234,20,7.5,1.5,True,True,True,float16

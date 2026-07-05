@@ -1,0 +1,25 @@
+{
+  "explicitly_not_implemented": [
+    "gradient sanity scan",
+    "geometry attack",
+    "pixel noise",
+    "adversarial patches",
+    "finetuning",
+    "LoRA",
+    "SPSA",
+    "CEM",
+    "landmarks",
+    "face alignment",
+    "face detection"
+  ],
+  "milestone": "Milestone 1 \u2014 Identity Layer Scan",
+  "scope": [
+    "layer inventory",
+    "activation hooks",
+    "pooled activation extraction",
+    "identity pair construction",
+    "layer identity scoring",
+    "layer/timestep ranking",
+    "report generation"
+  ]
+}

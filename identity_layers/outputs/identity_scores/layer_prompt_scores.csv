@@ -1,0 +1,63 @@
+layer_name,prompt,mean_identity_separation,mean_identity_auc,num_conditions
+vae_image_latent,add black sunglasses,0.01627534399962141,0.5623280423280423,4
+vae_image_latent,add headphones,0.01627534399962141,0.5623280423280423,4
+unet.conv_in,add black sunglasses,0.01242461935715583,0.547607289829512,4
+unet.conv_in,add headphones,0.01242461935715583,0.547607289829512,4
+unet.up_blocks.3.attentions.2.transformer_blocks.0.norm1,add black sunglasses,0.00029556793825966966,0.5417048794826573,4
+unet.up_blocks.3.attentions.2.transformer_blocks.0.norm1,add headphones,0.00029083200232692493,0.5417430922986479,4
+unet.up_blocks.0,add black sunglasses,0.0002287468739918299,0.5577630805408582,4
+unet.up_blocks.0,add headphones,0.00017205579255623796,0.557907113462669,4
+unet.mid_block,add black sunglasses,0.00017079753535134435,0.5497942386831276,4
+unet.up_blocks.3,add black sunglasses,0.0001697687087235629,0.5430423280423281,4
+unet.up_blocks.3,add headphones,0.0001696890466427677,0.5426807760141094,4
+unet.mid_block,add headphones,0.0001645012822731461,0.5492063492063491,4
+unet.up_blocks.2.attentions.1.transformer_blocks.0.attn1.to_v,add headphones,0.00013382936280871192,0.5296149323927102,4
+unet.up_blocks.2.attentions.1.transformer_blocks.0.attn1.to_v,add black sunglasses,0.00013294005520129336,0.5296325690770135,4
+unet.up_blocks.1.attentions.1.transformer_blocks.0,add black sunglasses,0.00011785101322900678,0.5501440329218107,4
+unet.up_blocks.1.attentions.0.transformer_blocks.0.norm2,add black sunglasses,0.00011513159073219098,0.5442328042328043,4
+unet.down_blocks.3,add black sunglasses,0.00011370133155237436,0.5442974720752498,4
+unet.down_blocks.3,add headphones,0.00010951271763554333,0.5439535567313345,4
+unet.down_blocks.2.attentions.1.transformer_blocks.0.attn1,add headphones,0.00010684515748705185,0.5392210464432686,4
+unet.up_blocks.1.attentions.1.transformer_blocks.0,add headphones,0.00010681846154429929,0.5499676660787771,4
+unet.up_blocks.1.attentions.0.transformer_blocks.0.norm2,add headphones,0.00010662241272194677,0.5439065255731923,4
+unet.down_blocks.2,add black sunglasses,0.00010600624576447497,0.5424691358024691,4
+unet.down_blocks.0,add headphones,0.00010433203328854196,0.5408994708994709,4
+unet.down_blocks.1.attentions.1.transformer_blocks.0.attn1.to_k,add headphones,0.00010430686688297011,0.535517342739565,4
+unet.down_blocks.2.attentions.1.transformer_blocks.0.attn1,add black sunglasses,0.0001040849105390922,0.5389447383891828,4
+unet.down_blocks.2,add headphones,0.00010400360854214452,0.5424897119341564,4
+unet.down_blocks.0,add black sunglasses,0.00010388752140065355,0.5410082304526749,4
+unet.down_blocks.1.attentions.1.transformer_blocks.0.attn1.to_k,add black sunglasses,0.00010304387915071358,0.5354115226337448,4
+unet.down_blocks.2.attentions.1.transformer_blocks.0.ff,add black sunglasses,9.38864769759002e-05,0.5422927689594356,4
+unet.down_blocks.2.attentions.1.transformer_blocks.0.ff,add headphones,9.15602401450828e-05,0.5425867136978249,4
+unet.down_blocks.1,add headphones,7.450358262137767e-05,0.536331569664903,4
+unet.down_blocks.1,add black sunglasses,7.377348879657726e-05,0.5363991769547325,4
+unet.up_blocks.2.attentions.1.transformer_blocks.0.ff.net.0.proj,add black sunglasses,6.547828830739177e-05,0.5360199882422105,4
+unet.up_blocks.3.attentions.2.transformer_blocks.0.norm3,add black sunglasses,6.520413847827414e-05,0.5438771310993533,4
+unet.up_blocks.1,add black sunglasses,6.50202944165184e-05,0.5382980599647267,4
+unet.up_blocks.3.attentions.2.transformer_blocks.0.norm3,add headphones,6.485639741181059e-05,0.5437477954144622,4
+unet.up_blocks.1,add headphones,6.364282792207425e-05,0.538586125808348,4
+unet.up_blocks.2.attentions.1.transformer_blocks.0.ff.net.0.proj,add headphones,6.327633819882829e-05,0.5354320987654322,4
+unet.up_blocks.2,add headphones,5.9303262877085874e-05,0.5364462081128747,4
+unet.up_blocks.2,add black sunglasses,5.865544869155476e-05,0.536793062904174,4
+unet.down_blocks.0.attentions.1.transformer_blocks.0.ff.net.1,add headphones,5.2861845682537766e-05,0.5480276308054085,4
+unet.down_blocks.0.attentions.1.transformer_blocks.0.ff.net.1,add black sunglasses,4.9465973541219396e-05,0.5485097001763668,4
+unet.down_blocks.2.attentions.0.transformer_blocks.0.attn2.to_q,add headphones,4.744119745082958e-05,0.5306202233980012,4
+unet.up_blocks.1.attentions.2.transformer_blocks.0.attn1.to_out.0,add headphones,4.713189980340375e-05,0.5393562610229277,4
+unet.up_blocks.1.attentions.2.transformer_blocks.0.attn1.to_out.0,add black sunglasses,4.679368286536488e-05,0.5393386243386243,4
+unet.down_blocks.2.attentions.0.transformer_blocks.0.attn2.to_q,add black sunglasses,4.604496653117837e-05,0.5307201646090535,4
+unet.up_blocks.1.attentions.2.transformer_blocks.0.ff.net.2,add black sunglasses,4.403778800257932e-05,0.5403057025279248,4
+unet.up_blocks.1.attentions.2.transformer_blocks.0.ff.net.2,add headphones,4.109847482550081e-05,0.5406290417401529,4
+unet.up_blocks.3.attentions.0.transformer_blocks.0.attn1.to_q,add black sunglasses,3.953431018445858e-05,0.5369282774838331,4
+unet.up_blocks.3.attentions.0.transformer_blocks.0.attn1.to_q,add headphones,3.689320945235156e-05,0.5366460905349795,4
+unet.down_blocks.1.attentions.1.transformer_blocks.0.ff.net.0,add headphones,3.463135509894639e-05,0.541628453850676,4
+unet.down_blocks.1.attentions.1.transformer_blocks.0.ff.net.0,add black sunglasses,3.438532037079021e-05,0.5422545561434451,4
+unet.up_blocks.1.attentions.1.transformer_blocks.0.attn2.to_out.1,add black sunglasses,1.9976938212359392e-05,0.5277278071722517,4
+unet.up_blocks.1.attentions.1.transformer_blocks.0.attn2.to_out.1,add headphones,1.1283679613991376e-05,0.5394444444444445,4
+unet.down_blocks.0.attentions.0.transformer_blocks.0.attn2.to_out.0,add headphones,7.66845291884488e-06,0.5496502057613168,4
+unet.down_blocks.0.attentions.0.transformer_blocks.0.attn2.to_out.0,add black sunglasses,6.935836146117523e-06,0.5451381540270429,4
+unet.up_blocks.3.attentions.1.transformer_blocks.0.attn2,add black sunglasses,4.742306376260427e-06,0.5326161081716637,4
+unet.up_blocks.3.attentions.1.transformer_blocks.0.attn2,add headphones,4.738521954369912e-06,0.5312316284538507,4
+unet.down_blocks.1.attentions.0.transformer_blocks.0.attn2.to_v,add black sunglasses,0.0,0.5,4
+unet.down_blocks.1.attentions.0.transformer_blocks.0.attn2.to_v,add headphones,0.0,0.5,4
+unet.up_blocks.2.attentions.2.transformer_blocks.0.attn2.to_k,add black sunglasses,0.0,0.5,4
+unet.up_blocks.2.attentions.2.transformer_blocks.0.attn2.to_k,add headphones,0.0,0.5,4

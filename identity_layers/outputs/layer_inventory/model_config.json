@@ -1,0 +1,47 @@
+{
+  "frozen_flags": {
+    "text_encoder": {
+      "all_frozen": true,
+      "num_parameters": 123060480,
+      "num_trainable_parameters": 0
+    },
+    "unet": {
+      "all_frozen": true,
+      "num_parameters": 859532484,
+      "num_trainable_parameters": 0
+    },
+    "vae": {
+      "all_frozen": true,
+      "num_parameters": 83653863,
+      "num_trainable_parameters": 0
+    }
+  },
+  "guidance_scale": 7.5,
+  "image_guidance_scale": 1.5,
+  "model_id": "timbrooks/instruct-pix2pix",
+  "num_inference_steps": 20,
+  "resolved_timesteps": [
+    999,
+    946,
+    893,
+    841,
+    788,
+    736,
+    683,
+    630,
+    578,
+    525,
+    473,
+    420,
+    368,
+    315,
+    262,
+    210,
+    157,
+    105,
+    52,
+    0
+  ],
+  "seed": 1234,
+  "torch_dtype": "float16"
+}

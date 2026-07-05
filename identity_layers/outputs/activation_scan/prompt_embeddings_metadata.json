@@ -1,0 +1,24 @@
+{
+  "prompts": [
+    {
+      "embedding_dtype": "torch.float16",
+      "embedding_norm": 252.1087646484375,
+      "embedding_shape": [
+        1,
+        77,
+        768
+      ],
+      "prompt": "add black sunglasses"
+    },
+    {
+      "embedding_dtype": "torch.float16",
+      "embedding_norm": 252.5325469970703,
+      "embedding_shape": [
+        1,
+        77,
+        768
+      ],
+      "prompt": "add headphones"
+    }
+  ]
+}

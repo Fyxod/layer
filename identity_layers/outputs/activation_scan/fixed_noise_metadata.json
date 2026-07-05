@@ -1,0 +1,13 @@
+{
+  "noise_device": "cuda:0",
+  "noise_dtype": "torch.float16",
+  "noise_shape": [
+    1,
+    4,
+    64,
+    64
+  ],
+  "reference_image_path_for_shape": "/home/interns/Desktop/layer/identity_layers/datasets/wikimedia_identity_probe/images/barack_obama/barack_obama_01.jpg",
+  "scheduler_init_noise_sigma": 14.614646911621094,
+  "seed": 1234
+}
