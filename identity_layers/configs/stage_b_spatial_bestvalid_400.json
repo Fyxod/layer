@@ -1,0 +1,71 @@
+{
+  "layers": [
+    "unet.conv_in"
+  ],
+  "prompts": [
+    "add headphones",
+    "add black sunglasses"
+  ],
+  "timestep_index": 6,
+  "iterations": 400,
+  "learning_rate": 0.02,
+  "max_cases": 4,
+  "seed": 1234,
+  "image_ids": [
+    "barack_obama_01",
+    "joe_biden_01",
+    "michelle_obama_01",
+    "kamala_harris_01"
+  ],
+  "input_preservation_weight": 0.0,
+  "checkpoint_selection": {
+    "enabled": true,
+    "use_best_valid_for_final": true,
+    "min_iteration": 1,
+    "min_input_ssim": 0.97,
+    "min_input_psnr": 26.0,
+    "max_combined_disp_px": 5.0,
+    "score": "Z_increase_from_initial"
+  },
+  "generate_final_edits": true,
+  "final_edit_seed": 1234,
+  "final_edit_num_inference_steps": 20,
+  "final_edit_guidance_scale": 7.5,
+  "final_edit_image_guidance_scale": 1.5,
+  "geometry": {
+    "init": "small_random",
+    "init_fraction": 0.03,
+    "max_combined_disp_px": 5.0,
+    "components": {
+      "tps": {
+        "enabled": true
+      },
+      "delaunay": {
+        "enabled": true
+      },
+      "rolling": {
+        "enabled": true
+      },
+      "dct": {
+        "enabled": true
+      },
+      "fft_phase": {
+        "enabled": false
+      }
+    },
+    "limits": {
+      "tps_px_limit": 3.0,
+      "delaunay_px_limit": 3.5,
+      "rolling_px_limit": 2.0,
+      "dct_px_limit": 1.5,
+      "fft_phase_limit_rad": 0.0
+    },
+    "sizes": {
+      "tps_size": 5,
+      "delaunay_size": 5,
+      "dct_size": 4,
+      "fft_phase_size": 8,
+      "edge_falloff_px": 16.0
+    }
+  }
+}
