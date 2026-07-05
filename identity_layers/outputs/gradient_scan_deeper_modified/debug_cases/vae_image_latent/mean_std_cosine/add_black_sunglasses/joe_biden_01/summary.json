@@ -1,0 +1,9 @@
+{
+  "Z_increase": 0.0,
+  "final_Z": 0.00025141239166259766,
+  "image_id": "joe_biden_01",
+  "initial_Z": 0.00025141239166259766,
+  "layer_name": "vae_image_latent",
+  "objective_variant": "mean_std_cosine",
+  "prompt": "add black sunglasses"
+}

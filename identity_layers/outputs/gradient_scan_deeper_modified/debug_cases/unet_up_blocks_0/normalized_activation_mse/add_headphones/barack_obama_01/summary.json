@@ -1,0 +1,9 @@
+{
+  "Z_increase": 0.0,
+  "final_Z": 5.3079658723920176e-11,
+  "image_id": "barack_obama_01",
+  "initial_Z": 5.3079658723920176e-11,
+  "layer_name": "unet.up_blocks.0",
+  "objective_variant": "normalized_activation_mse",
+  "prompt": "add headphones"
+}

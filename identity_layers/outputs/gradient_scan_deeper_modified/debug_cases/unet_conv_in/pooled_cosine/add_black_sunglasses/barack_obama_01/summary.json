@@ -1,0 +1,9 @@
+{
+  "Z_increase": 0.0,
+  "final_Z": 0.0006208419799804688,
+  "image_id": "barack_obama_01",
+  "initial_Z": 0.0006208419799804688,
+  "layer_name": "unet.conv_in",
+  "objective_variant": "pooled_cosine",
+  "prompt": "add black sunglasses"
+}

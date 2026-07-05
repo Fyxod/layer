@@ -1,0 +1,52 @@
+{
+  "graph_paths": [
+    "/home/interns/Desktop/layer/identity_layers/outputs/gradient_scan_deeper_modified/gradient_norm_by_layer.png",
+    "/home/interns/Desktop/layer/identity_layers/outputs/gradient_scan_deeper_modified/short_step_Z_curves.png"
+  ],
+  "layers_tested": [
+    "vae_image_latent",
+    "unet.conv_in",
+    "unet.mid_block",
+    "unet.up_blocks.0"
+  ],
+  "note": "This is a short gradient sanity scan, not a full geometry attack.",
+  "num_failures": 0,
+  "num_rows": 864,
+  "objective_variants": [
+    "pooled_cosine",
+    "mean_std_cosine",
+    "normalized_activation_mse"
+  ],
+  "prompts": [
+    "add black sunglasses",
+    "add headphones"
+  ],
+  "selected_layers": [
+    {
+      "finite_all_rows": true,
+      "layer_name": "unet.conv_in",
+      "mean_Z_increase": 0.00022324919700622559,
+      "mean_final_Z": 0.000751793384552002,
+      "mean_final_total_grad_norm": 0.0001636646991241562,
+      "mean_initial_Z": 0.0005285441875457764,
+      "num_cases": 4,
+      "objective_variant": "pooled_cosine",
+      "prompt": "add headphones",
+      "status": "ok"
+    },
+    {
+      "finite_all_rows": true,
+      "layer_name": "unet.conv_in",
+      "mean_Z_increase": 0.00020428001880645752,
+      "mean_final_Z": 0.0007328242063522339,
+      "mean_final_total_grad_norm": 4.901889560738044e-05,
+      "mean_initial_Z": 0.0005285441875457764,
+      "num_cases": 4,
+      "objective_variant": "pooled_cosine",
+      "prompt": "add black sunglasses",
+      "status": "ok"
+    }
+  ],
+  "steps": 8,
+  "timestep_index": 6
+}

@@ -1,0 +1,9 @@
+{
+  "Z_increase": 0.0008929967880249023,
+  "final_Z": 0.0016796588897705078,
+  "image_id": "kamala_harris_01",
+  "initial_Z": 0.0007866621017456055,
+  "layer_name": "unet.conv_in",
+  "objective_variant": "pooled_cosine",
+  "prompt": "add headphones"
+}

@@ -1,0 +1,9 @@
+{
+  "Z_increase": 0.0,
+  "final_Z": 7.3909759521484375e-06,
+  "image_id": "kamala_harris_01",
+  "initial_Z": 7.3909759521484375e-06,
+  "layer_name": "unet.conv_in",
+  "objective_variant": "mean_std_cosine",
+  "prompt": "add black sunglasses"
+}

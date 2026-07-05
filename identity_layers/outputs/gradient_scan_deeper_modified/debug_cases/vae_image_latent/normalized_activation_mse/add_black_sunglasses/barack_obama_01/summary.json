@@ -1,0 +1,9 @@
+{
+  "Z_increase": 0.0,
+  "final_Z": 6.406644956769014e-07,
+  "image_id": "barack_obama_01",
+  "initial_Z": 6.406644956769014e-07,
+  "layer_name": "vae_image_latent",
+  "objective_variant": "normalized_activation_mse",
+  "prompt": "add black sunglasses"
+}

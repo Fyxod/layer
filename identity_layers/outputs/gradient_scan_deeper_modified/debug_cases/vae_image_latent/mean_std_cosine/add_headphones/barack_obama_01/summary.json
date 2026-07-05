@@ -1,0 +1,9 @@
+{
+  "Z_increase": 0.0,
+  "final_Z": 0.00029540061950683594,
+  "image_id": "barack_obama_01",
+  "initial_Z": 0.00029540061950683594,
+  "layer_name": "vae_image_latent",
+  "objective_variant": "mean_std_cosine",
+  "prompt": "add headphones"
+}

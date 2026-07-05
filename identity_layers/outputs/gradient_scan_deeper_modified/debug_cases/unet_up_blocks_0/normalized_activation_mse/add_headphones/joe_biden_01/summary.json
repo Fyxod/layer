@@ -1,0 +1,9 @@
+{
+  "Z_increase": 0.0,
+  "final_Z": 6.275897856955481e-11,
+  "image_id": "joe_biden_01",
+  "initial_Z": 6.275897856955481e-11,
+  "layer_name": "unet.up_blocks.0",
+  "objective_variant": "normalized_activation_mse",
+  "prompt": "add headphones"
+}

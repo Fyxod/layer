@@ -1,0 +1,9 @@
+{
+  "Z_increase": 0.0,
+  "final_Z": 0.0002982616424560547,
+  "image_id": "joe_biden_01",
+  "initial_Z": 0.0002982616424560547,
+  "layer_name": "vae_image_latent",
+  "objective_variant": "pooled_cosine",
+  "prompt": "add headphones"
+}

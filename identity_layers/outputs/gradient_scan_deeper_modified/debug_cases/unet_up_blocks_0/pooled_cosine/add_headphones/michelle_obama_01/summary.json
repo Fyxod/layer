@@ -1,0 +1,9 @@
+{
+  "Z_increase": 0.0,
+  "final_Z": 3.933906555175781e-06,
+  "image_id": "michelle_obama_01",
+  "initial_Z": 3.933906555175781e-06,
+  "layer_name": "unet.up_blocks.0",
+  "objective_variant": "pooled_cosine",
+  "prompt": "add headphones"
+}

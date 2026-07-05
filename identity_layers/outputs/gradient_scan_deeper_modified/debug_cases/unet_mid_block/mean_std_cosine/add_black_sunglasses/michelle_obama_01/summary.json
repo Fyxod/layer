@@ -1,0 +1,9 @@
+{
+  "Z_increase": 0.0,
+  "final_Z": 2.2649765014648438e-06,
+  "image_id": "michelle_obama_01",
+  "initial_Z": 2.2649765014648438e-06,
+  "layer_name": "unet.mid_block",
+  "objective_variant": "mean_std_cosine",
+  "prompt": "add black sunglasses"
+}
