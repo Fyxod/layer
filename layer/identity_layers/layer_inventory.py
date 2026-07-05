@@ -7,7 +7,7 @@ from typing import Any
 import torch
 
 from .activation_hooks import ShapeHookCapture
-from .cases import build_identity_manifest
+from .cases import build_identity_manifest, load_identity_manifest
 from .instruct_backend import InstructLayerBackend
 from .io import package_versions, write_csv, write_json
 
@@ -135,9 +135,13 @@ def run_inventory(
     prompt: str = DEFAULT_PROMPT,
     timestep_index: int = 6,
     face_ids: list[str] | None = None,
+    dataset_manifest: Path | None = None,
 ) -> dict[str, Any]:
     output_dir.mkdir(parents=True, exist_ok=True)
-    manifest_payload = build_identity_manifest(mat_root, output_dir / "manifest", face_ids=face_ids)
+    if dataset_manifest is not None:
+        manifest_payload = load_identity_manifest(root, dataset_manifest, output_dir / "manifest")
+    else:
+        manifest_payload = build_identity_manifest(mat_root, output_dir / "manifest", face_ids=face_ids)
     if not manifest_payload["manifest"]:
         raise FileNotFoundError(f"No MAT face images found under {mat_root / 'data'}")
     image_path = manifest_payload["manifest"][0]["image_path"]

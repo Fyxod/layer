@@ -1,6 +1,7 @@
 {
   "model_id": "timbrooks/instruct-pix2pix",
   "face_ids": ["face_002", "face_005"],
+  "dataset_manifest": "identity_layers/datasets/wikimedia_identity_probe/identity_manifest.csv",
   "prompts": ["add black sunglasses", "add headphones"],
   "timestep_indices": [3, 6, 10, 14],
   "max_layers": 36,

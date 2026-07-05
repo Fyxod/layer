@@ -3,5 +3,6 @@
   "prompt": "add black sunglasses",
   "timestep_index": 6,
   "face_ids": ["face_002", "face_005"],
+  "dataset_manifest": "identity_layers/datasets/wikimedia_identity_probe/identity_manifest.csv",
   "notes": "Milestone 1 inventory only. No geometry attack is run."
 }

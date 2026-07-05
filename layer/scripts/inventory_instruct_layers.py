@@ -16,6 +16,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--prompt", default=None)
     parser.add_argument("--timestep-index", type=int, default=None)
     parser.add_argument("--faces", nargs="*", default=None)
+    parser.add_argument("--dataset-manifest", type=Path, default=None)
     parser.add_argument("--output-dir", type=Path, default=None)
     return parser.parse_args()
 
@@ -32,6 +33,7 @@ def main() -> None:
         prompt=args.prompt or config.get("prompt", "add black sunglasses"),
         timestep_index=args.timestep_index if args.timestep_index is not None else int(config.get("timestep_index", 6)),
         face_ids=args.faces or config.get("face_ids"),
+        dataset_manifest=args.dataset_manifest or (Path(config["dataset_manifest"]) if config.get("dataset_manifest") else None),
     )
     print(f"Wrote layer inventory to: {output_dir}")
     print(f"Candidates: {payload['num_candidates']}")

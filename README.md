@@ -30,14 +30,27 @@ All model weights are frozen. The scan only reads internal activations.
 
 ## Default data source
 
-The default scripts use MAT data:
+The default scripts now use the committed Wikimedia identity-probe dataset:
 
 ```text
-/home/interns/Desktop/mat/data/face_002/
-/home/interns/Desktop/mat/data/face_005/
+identity_layers/datasets/wikimedia_identity_probe/
 ```
 
-The default auto-manifest uses available image variants such as `instruct_512.png`, `master_1024.png`, and `flux_768.png` to create development same-identity pairs. This is useful for validating the scan pipeline, but it is not a final identity benchmark. A richer identity dataset can be added later.
+Current dataset size:
+
+- 15 identities
+- 3 images per identity
+- 45 total images
+- 45 same-identity pairs
+- 945 different-identity pairs
+
+The images were selected from Wikimedia Commons and resized to 512×512 using generic letterbox padding. No face detection, face alignment, or landmarks are used. Per-file license and source metadata is stored in:
+
+```text
+identity_layers/datasets/wikimedia_identity_probe/source_attribution.csv
+```
+
+The old MAT auto-manifest fallback still exists for development, but the default configs point to the Wikimedia dataset.
 
 ## A6000 command sequence
 

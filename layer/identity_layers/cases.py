@@ -5,7 +5,7 @@ import itertools
 from pathlib import Path
 from typing import Any
 
-from .io import write_csv, write_json
+from .io import read_csv, write_csv, write_json
 
 
 DEFAULT_FACES = ("face_002", "face_005")
@@ -23,6 +23,101 @@ def slugify(value: str) -> str:
     while "__" in text:
         text = text.replace("__", "_")
     return text.strip("_")
+
+
+def _dedupe_rows(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    seen = set()
+    deduped = []
+    for row in rows:
+        key = Path(str(row["image_path"])).as_posix().lower()
+        if key in seen:
+            continue
+        seen.add(key)
+        deduped.append(row)
+    return deduped
+
+
+def _build_pairs(rows: list[dict[str, Any]]) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+    same_rows = []
+    diff_rows = []
+    for left, right in itertools.combinations(rows, 2):
+        pair = {
+            "left_image_id": left["image_id"],
+            "right_image_id": right["image_id"],
+            "left_identity_id": left["identity_id"],
+            "right_identity_id": right["identity_id"],
+            "left_image_path": left["image_path"],
+            "right_image_path": right["image_path"],
+        }
+        if left["identity_id"] == right["identity_id"]:
+            same_rows.append({**pair, "pair_type": "same_identity"})
+        else:
+            diff_rows.append({**pair, "pair_type": "different_identity"})
+    return same_rows, diff_rows
+
+
+def _write_manifest_outputs(output_dir: Path, rows: list[dict[str, Any]], summary_extra: dict[str, Any] | None = None) -> dict[str, Any]:
+    rows = _dedupe_rows(rows)
+    same_rows, diff_rows = _build_pairs(rows)
+    identities = sorted({row["identity_id"] for row in rows})
+    summary = {
+        "num_images": len(rows),
+        "num_identities": len(identities),
+        "identity_ids": identities,
+        "num_same_identity_pairs": len(same_rows),
+        "num_different_identity_pairs": len(diff_rows),
+        "warning": None,
+        **(summary_extra or {}),
+    }
+    if len(identities) < 10 or len(same_rows) == 0 or len(diff_rows) == 0:
+        summary["warning"] = "Probe dataset is below preferred size or missing valid same/different pairs."
+
+    write_csv(output_dir / "identity_manifest.csv", rows)
+    write_csv(output_dir / "same_identity_pairs.csv", same_rows)
+    write_csv(output_dir / "different_identity_pairs.csv", diff_rows)
+    write_json(output_dir / "dataset_summary.json", summary)
+    return {"manifest": rows, "same_pairs": same_rows, "different_pairs": diff_rows, "summary": summary}
+
+
+def load_identity_manifest(
+    root: Path,
+    manifest_path: Path,
+    output_dir: Path,
+) -> dict[str, Any]:
+    """Load an explicit identity manifest and materialize pair CSVs.
+
+    Manifest image paths may be absolute or relative to the repo root.
+    The copied manifest written into the scan output uses absolute paths so
+    A6000 commands do not depend on the process working directory.
+    """
+
+    manifest_path = manifest_path if manifest_path.is_absolute() else root / manifest_path
+    rows = read_csv(manifest_path)
+    normalized: list[dict[str, Any]] = []
+    for row in rows:
+        image_path = Path(row["image_path"])
+        abs_path = image_path if image_path.is_absolute() else root / image_path
+        if not abs_path.exists():
+            raise FileNotFoundError(f"Dataset image missing: {abs_path}")
+        normalized.append(
+            {
+                "image_path": abs_path.as_posix(),
+                "identity_id": row["identity_id"],
+                "image_id": row.get("image_id") or f"{row['identity_id']}_{slugify(abs_path.stem)}",
+                "source": row.get("source", "external_manifest"),
+                "split": row.get("split", "probe"),
+                "notes": row.get("notes", ""),
+            }
+        )
+    return _write_manifest_outputs(
+        output_dir,
+        normalized,
+        {
+            "manifest_path": manifest_path.as_posix(),
+            "dataset_source": "explicit_manifest",
+            "preferred_dataset_size_met": len({row["identity_id"] for row in normalized}) >= 10,
+        },
+    )
 
 
 def build_identity_manifest(
@@ -75,48 +170,12 @@ def build_identity_manifest(
                     }
                 )
 
-    # Remove accidental path duplicates while preserving order.
-    seen = set()
-    deduped = []
-    for row in rows:
-        key = Path(row["image_path"]).resolve().as_posix().lower()
-        if key in seen:
-            continue
-        seen.add(key)
-        deduped.append(row)
-    rows = deduped
-
-    same_rows = []
-    diff_rows = []
-    for left, right in itertools.combinations(rows, 2):
-        pair = {
-            "left_image_id": left["image_id"],
-            "right_image_id": right["image_id"],
-            "left_identity_id": left["identity_id"],
-            "right_identity_id": right["identity_id"],
-            "left_image_path": left["image_path"],
-            "right_image_path": right["image_path"],
-        }
-        if left["identity_id"] == right["identity_id"]:
-            same_rows.append({**pair, "pair_type": "same_identity"})
-        else:
-            diff_rows.append({**pair, "pair_type": "different_identity"})
-
-    identities = sorted({row["identity_id"] for row in rows})
-    summary = {
-        "num_images": len(rows),
-        "num_identities": len(identities),
-        "identity_ids": identities,
-        "num_same_identity_pairs": len(same_rows),
-        "num_different_identity_pairs": len(diff_rows),
+    return _write_manifest_outputs(
+        output_dir,
+        rows,
+        {
         "canonical_only": canonical_only,
-        "warning": None,
-    }
-    if len(rows) < 3 or len(same_rows) == 0 or len(diff_rows) == 0:
-        summary["warning"] = "Development manifest is too small for a strong identity conclusion; add more identities/images."
-
-    write_csv(output_dir / "identity_manifest.csv", rows)
-    write_csv(output_dir / "same_identity_pairs.csv", same_rows)
-    write_csv(output_dir / "different_identity_pairs.csv", diff_rows)
-    write_json(output_dir / "dataset_summary.json", summary)
-    return {"manifest": rows, "same_pairs": same_rows, "different_pairs": diff_rows, "summary": summary}
+        "dataset_source": "mat_auto_manifest",
+        "warning": "MAT auto-manifest is only for development if fewer than 10 identities are present.",
+        },
+    )

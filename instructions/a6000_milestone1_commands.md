@@ -2,6 +2,12 @@
 
 Run these on the Linux A6000 machine from the repo root.
 
+The configs use the committed Wikimedia identity-probe dataset by default:
+
+```text
+identity_layers/datasets/wikimedia_identity_probe/identity_manifest.csv
+```
+
 ```bash
 cd /home/interns/Desktop/layer
 git pull origin main

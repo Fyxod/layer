@@ -8,7 +8,7 @@ import numpy as np
 import torch
 
 from .activation_hooks import PooledHookCapture
-from .cases import build_identity_manifest, slugify
+from .cases import build_identity_manifest, load_identity_manifest, slugify
 from .instruct_backend import InstructLayerBackend
 from .io import append_jsonl, read_json, write_csv, write_json
 from .pooling import activation_stats, pool_activation
@@ -35,6 +35,7 @@ def load_scan_layers(inventory_dir: Path, explicit_layers: list[str] | None = No
 
 
 def run_extraction(
+    root: Path,
     mat_root: Path,
     inventory_dir: Path,
     output_dir: Path,
@@ -44,14 +45,18 @@ def run_extraction(
     layers: list[str] | None = None,
     max_layers: int | None = None,
     canonical_only: bool = False,
+    dataset_manifest: Path | None = None,
 ) -> dict[str, Any]:
     output_dir.mkdir(parents=True, exist_ok=True)
-    manifest_payload = build_identity_manifest(
-        mat_root,
-        output_dir / "manifest",
-        face_ids=face_ids,
-        canonical_only=canonical_only,
-    )
+    if dataset_manifest is not None:
+        manifest_payload = load_identity_manifest(root, dataset_manifest, output_dir / "manifest")
+    else:
+        manifest_payload = build_identity_manifest(
+            mat_root,
+            output_dir / "manifest",
+            face_ids=face_ids,
+            canonical_only=canonical_only,
+        )
     manifest = manifest_payload["manifest"]
     if not manifest:
         raise FileNotFoundError(f"No images found under {mat_root / 'data'}")
