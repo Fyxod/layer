@@ -308,7 +308,9 @@ def per_run_rows(runs: list[dict[str, Any]]) -> list[dict[str, Any]]:
                 "image_id": run["image_id"],
                 "initial_Z": s.get("initial_Z"),
                 "final_Z": s.get("final_Z"),
+                "final_source": s.get("final_source", "last_iteration"),
                 "Z_increase": s.get("Z_increase"),
+                "input_preservation_weight": s.get("input_preservation_weight", 0.0),
                 "input_ssim": s.get("final_input_ssim"),
                 "input_psnr": s.get("final_input_psnr"),
                 "input_l2": s.get("final_input_l2"),
@@ -520,7 +522,7 @@ def graph_section_html(section: dict[str, Any]) -> str:
 def build_html(data: dict[str, Any]) -> str:
     matrix_cols = [("layers", "layers"), ("prompts", "prompts"), ("images", "images"), ("runs", "runs"), ("iterations", "iterations"), ("layer_names", "layer names")]
     agg_cols = [("layer_name", "layer"), ("prompt", "prompt"), ("num_runs", "runs"), ("mean_Z_increase", "mean dZ"), ("max_Z_increase", "max dZ"), ("mean_input_ssim", "mean input SSIM"), ("min_input_ssim", "min input SSIM"), ("mean_output_ssim", "mean output SSIM"), ("invalid_count", "invalid")]
-    per_cols = [("validity", "validity"), ("layer_name", "layer"), ("prompt", "prompt"), ("image_id", "image"), ("Z_increase", "dZ"), ("final_Z", "final Z"), ("input_ssim", "input SSIM"), ("input_psnr", "input PSNR"), ("output_ssim", "output SSIM"), ("output_l2", "output L2"), ("max_disp_px", "max disp")]
+    per_cols = [("validity", "validity"), ("layer_name", "layer"), ("prompt", "prompt"), ("image_id", "image"), ("final_source", "source"), ("Z_increase", "dZ"), ("final_Z", "final Z"), ("input_preservation_weight", "preserve w"), ("input_ssim", "input SSIM"), ("input_psnr", "input PSNR"), ("output_ssim", "output SSIM"), ("output_l2", "output L2"), ("max_disp_px", "max disp")]
     grad_cols = [("layer_name", "layer"), ("mean_initial_Z", "initial Z"), ("mean_final_Z", "final Z"), ("mean_Z_increase", "dZ"), ("mean_final_total_grad_norm", "grad norm"), ("finite_all_rows", "finite")]
     arc_cols = [("baseline_name", "baseline"), ("spearman_cosine_distance_vs_arcface", "Spearman vs ArcFace"), ("pearson_cosine_distance_vs_arcface", "Pearson vs ArcFace")]
     css = """
@@ -542,6 +544,27 @@ def build_html(data: dict[str, Any]) -> str:
     .path { font-family:Consolas,monospace; font-size:12px; word-break:break-all; color:#334155; }
     @media print { main { max-width:none; } .card { break-inside:avoid; } }
     """
+    weights = sorted({to_float(r["summary"].get("input_preservation_weight")) or 0.0 for r in data["runs"]})
+    uses_preservation = any(w > 0.0 for w in weights)
+    loss_block = (
+        "Z = 1 - cosine_similarity(pool(layer(original)), pool(layer(perturbed)))\n"
+        "loss = -Z + input_preservation_weight * MSE(perturbed, original)"
+        if uses_preservation
+        else "Z = 1 - cosine_similarity(pool(layer(original)), pool(layer(perturbed)))\nloss = -Z"
+    )
+    loss_note = (
+        f"These runs use an input-preservation counter-loss. Observed preservation weights: {', '.join(f'{w:g}' for w in weights)}. "
+        "Final images may be generated from the best valid checkpoint when checkpoint selection is enabled."
+        if uses_preservation
+        else "No visual counter-loss was used in these runs. This is important: destructive inputs can score highly if the internal layer distance increases."
+    )
+    invalid_count = sum(1 for r in data["runs"] if str(r["validity"]).startswith("invalid"))
+    callout = (
+        f"<div class='callout'><b>Input-validity note:</b> {invalid_count} collected runs were flagged invalid by the report heuristic. "
+        "Inspect image strips before treating a high-Z run as useful.</div>"
+        if invalid_count
+        else "<div class='callout'><b>Input-validity note:</b> no runs were flagged as input-destroyed by the report heuristic. Visual inspection is still required.</div>"
+    )
     parts = [
         "<!doctype html><html lang='en'><head><meta charset='utf-8'><meta name='viewport' content='width=device-width, initial-scale=1'>",
         f"<title>{html_escape(TITLE)}</title><style>{css}</style></head><body><main>",
@@ -549,8 +572,8 @@ def build_html(data: dict[str, Any]) -> str:
         "<div class='card'><h2>Overview</h2><p>This report summarizes the current Stage-B identity-layer geometry runs. InstructPix2Pix weights are frozen. Only differentiable geometry parameters are optimized.</p></div>",
         "<h2>1. Method</h2>",
         "<p>Stage A ranked internal representations and tested whether identity-sensitive layers produced usable gradients to geometry parameters. Stage B targets selected frozen InstructPix2Pix layers directly.</p>",
-        "<pre>Z = 1 - cosine_similarity(pool(layer(original)), pool(layer(perturbed)))\nloss = -Z</pre>",
-        "<p>No visual counter-loss was used in these runs. This is important: destructive inputs can score highly if the internal layer distance increases.</p>",
+        f"<pre>{html_escape(loss_block)}</pre>",
+        f"<p>{html_escape(loss_note)}</p>",
         "<h2>2. Stage-A context</h2>",
         "<h3>Gradient-selected layers</h3>",
         table_html(data["stage_a"].get("gradient_rows", []), grad_cols),
@@ -562,7 +585,7 @@ def build_html(data: dict[str, Any]) -> str:
         table_html(data["aggregate_rows"], agg_cols),
         "<h2>5. Per-run final values</h2>",
         table_html(data["per_run_rows"], per_cols),
-        "<div class='callout'><b>Current broad-run conclusion:</b> the highest-Z <code>unet.conv_in</code> runs are invalid as attacks because input preservation collapsed. The green images are caused by FFT phase saturation and DCT/spatial movement under an unconstrained <code>loss = -Z</code> objective.</div>",
+        callout,
         "<h2>6. Image strips</h2>",
     ]
     for run in data["runs_sorted_for_display"]:
@@ -592,7 +615,13 @@ def build_html(data: dict[str, Any]) -> str:
 def build_markdown(data: dict[str, Any]) -> str:
     matrix_cols = [("layers", "layers"), ("prompts", "prompts"), ("images", "images"), ("runs", "runs"), ("iterations", "iterations"), ("layer_names", "layer names")]
     agg_cols = [("layer_name", "layer"), ("prompt", "prompt"), ("num_runs", "runs"), ("mean_Z_increase", "mean dZ"), ("max_Z_increase", "max dZ"), ("mean_input_ssim", "mean input SSIM"), ("invalid_count", "invalid")]
-    per_cols = [("validity", "validity"), ("layer_name", "layer"), ("prompt", "prompt"), ("image_id", "image"), ("Z_increase", "dZ"), ("input_ssim", "input SSIM"), ("output_ssim", "output SSIM"), ("max_disp_px", "max disp")]
+    per_cols = [("validity", "validity"), ("layer_name", "layer"), ("prompt", "prompt"), ("image_id", "image"), ("final_source", "source"), ("Z_increase", "dZ"), ("input_ssim", "input SSIM"), ("output_ssim", "output SSIM"), ("max_disp_px", "max disp")]
+    weights = sorted({to_float(r["summary"].get("input_preservation_weight")) or 0.0 for r in data["runs"]})
+    uses_preservation = any(w > 0.0 for w in weights)
+    loss_lines = [
+        "`Z = 1 - cosine_similarity(pool(layer(original)), pool(layer(perturbed)))`",
+        "`loss = -Z + input_preservation_weight * MSE(perturbed, original)`" if uses_preservation else "`loss = -Z`",
+    ]
     lines = [
         f"# {TITLE}",
         "",
@@ -602,11 +631,9 @@ def build_markdown(data: dict[str, Any]) -> str:
         "",
         "## Method",
         "",
-        "`Z = 1 - cosine_similarity(pool(layer(original)), pool(layer(perturbed)))`",
+        *loss_lines,
         "",
-        "`loss = -Z`",
-        "",
-        "No visual counter-loss was used.",
+        f"Input preservation weights observed: {', '.join(f'{w:g}' for w in weights)}.",
         "",
         "## Run matrix",
         "",
@@ -687,13 +714,21 @@ def make_pdf(data: dict[str, Any], output_root: Path, pdf_path: Path, quality: d
     story.append(Paragraph(TITLE, styles["Title"]))
     p(SUBTITLE, "Heading2")
     p(f"Author: {AUTHOR}")
-    p("Objective: Z = 1 - cosine_similarity(pool(layer(original)), pool(layer(perturbed))). Loss: loss = -Z. No visual counter-loss was used.")
+    weights = sorted({to_float(r["summary"].get("input_preservation_weight")) or 0.0 for r in data["runs"]})
+    if any(w > 0.0 for w in weights):
+        p(
+            "Objective: Z = 1 - cosine_similarity(pool(layer(original)), pool(layer(perturbed))). "
+            "Loss: loss = -Z + input_preservation_weight * MSE(perturbed, original). "
+            f"Observed preservation weights: {', '.join(f'{w:g}' for w in weights)}."
+        )
+    else:
+        p("Objective: Z = 1 - cosine_similarity(pool(layer(original)), pool(layer(perturbed))). Loss: loss = -Z. No visual counter-loss was used.")
     p("Run matrix", "Heading2")
     add_table(data["matrix_rows"], [("layers", "layers"), ("prompts", "prompts"), ("images", "images"), ("runs", "runs"), ("iterations", "iterations")], 7)
     p("Aggregate results", "Heading2")
     add_table(data["aggregate_rows"], [("layer_name", "layer"), ("prompt", "prompt"), ("num_runs", "runs"), ("mean_Z_increase", "mean dZ"), ("max_Z_increase", "max dZ"), ("mean_input_ssim", "mean SSIM"), ("min_input_ssim", "min SSIM"), ("invalid_count", "invalid")], 5.5)
     p("Per-run final values", "Heading2")
-    add_table(data["per_run_rows"], [("validity", "validity"), ("layer_name", "layer"), ("prompt", "prompt"), ("image_id", "image"), ("Z_increase", "dZ"), ("input_ssim", "SSIM"), ("output_ssim", "out SSIM"), ("max_disp_px", "max disp")], 4.8)
+    add_table(data["per_run_rows"], [("validity", "validity"), ("layer_name", "layer"), ("prompt", "prompt"), ("image_id", "image"), ("final_source", "source"), ("Z_increase", "dZ"), ("input_ssim", "SSIM"), ("output_ssim", "out SSIM"), ("max_disp_px", "max disp")], 4.3)
     story.append(PageBreak())
     p("Image strips", "Heading2")
     for run in data["runs_sorted_for_display"]:

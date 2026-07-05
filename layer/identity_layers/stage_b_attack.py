@@ -37,6 +37,8 @@ class StageBSmokeConfig:
     seed: int = 1234
     image_ids: list[str] = field(default_factory=list)
     geometry: dict[str, Any] = field(default_factory=dict)
+    input_preservation_weight: float = 0.0
+    checkpoint_selection: dict[str, Any] = field(default_factory=dict)
     generate_final_edits: bool = True
     final_edit_seed: int = 1234
     final_edit_num_inference_steps: int = 20
@@ -232,7 +234,12 @@ def run_single_stage_b_case(
         "image_row": image_row,
         "config": config.__dict__,
         "package_versions": package_versions(),
-        "objective": "Z = 1 - cosine_similarity(pool(layer(original)), pool(layer(perturbed))); loss = -Z",
+        "objective": "Z = 1 - cosine_similarity(pool(layer(original)), pool(layer(perturbed)))",
+        "loss": (
+            "loss = -Z"
+            if float(config.input_preservation_weight) == 0.0
+            else f"loss = -Z + {float(config.input_preservation_weight):g} * MSE(perturbed, original)"
+        ),
     }
     write_json(output_dir / "config_resolved.json", resolved)
 
@@ -252,6 +259,18 @@ def run_single_stage_b_case(
     best_Z = -float("inf")
     best_iter = 0
     best_payload: dict[str, Any] | None = None
+    initial_Z_value: float | None = None
+    selection_cfg = config.checkpoint_selection or {}
+    select_valid = bool(selection_cfg.get("enabled", False))
+    use_best_valid_for_final = bool(selection_cfg.get("use_best_valid_for_final", True))
+    min_valid_iter = int(selection_cfg.get("min_iteration", 1))
+    min_valid_ssim = float(selection_cfg.get("min_input_ssim", 0.0))
+    min_valid_psnr = float(selection_cfg.get("min_input_psnr", -float("inf")))
+    max_valid_disp = float(selection_cfg.get("max_combined_disp_px", float("inf")))
+    best_valid_score = -float("inf")
+    best_valid_iter = -1
+    best_valid_payload: dict[str, Any] | None = None
+    best_valid_row: dict[str, Any] | None = None
 
     try:
         for iteration in range(0, int(config.iterations) + 1):
@@ -261,7 +280,8 @@ def run_single_stage_b_case(
             pooled = capture_pooled(backend, perturbed, prompt, int(config.timestep_index), layer_name)
             cosine = F.cosine_similarity(original_ref.float(), pooled.float(), dim=1).mean()
             Z = 1.0 - cosine
-            loss = -Z
+            input_preservation_loss = mse(perturbed, image_tensor)
+            loss = -Z + float(config.input_preservation_weight) * input_preservation_loss
             if iteration > 0:
                 loss.backward()
                 grad_norms = geometry.grad_norms()
@@ -288,6 +308,8 @@ def run_single_stage_b_case(
                 "iteration": int(iteration),
                 "Z": float(Z.detach().cpu()),
                 "Z_total": float(Z.detach().cpu()),
+                "input_preservation_weight": float(config.input_preservation_weight),
+                "input_preservation_loss": float(input_preservation_loss.detach().cpu()),
                 "loss": float(loss.detach().cpu()),
                 "layer_name": layer_name,
                 "prompt": prompt,
@@ -307,7 +329,35 @@ def run_single_stage_b_case(
                 "peak_vram_gb": float(torch.cuda.max_memory_allocated() / (1024**3)) if torch.cuda.is_available() else float("nan"),
             }
             rows.append(row)
+            if initial_Z_value is None:
+                initial_Z_value = float(row["Z"])
+            z_increase_from_initial = float(row["Z"]) - float(initial_Z_value)
+            row["Z_increase_from_initial"] = z_increase_from_initial
+            input_ssim_value = safe_float(row.get("input_ssim"))
+            input_psnr_value = safe_float(row.get("input_psnr"))
+            max_disp_value = safe_float(row.get("combined_max_disp_px"))
+            valid_checkpoint = (
+                bool(select_valid)
+                and int(iteration) >= min_valid_iter
+                and bool(finite_gradient)
+                and not bool(row["nan_or_inf_flag"])
+                and input_ssim_value >= min_valid_ssim
+                and input_psnr_value >= min_valid_psnr
+                and max_disp_value <= max_valid_disp
+            )
+            row["valid_checkpoint"] = bool(valid_checkpoint)
+            row["valid_checkpoint_score"] = z_increase_from_initial if valid_checkpoint else float("nan")
             append_jsonl(history_jsonl_path, row)
+            if valid_checkpoint and z_increase_from_initial > best_valid_score:
+                best_valid_score = z_increase_from_initial
+                best_valid_iter = int(iteration)
+                best_valid_row = dict(row)
+                best_valid_payload = {
+                    "perturbed": perturbed.detach().clone(),
+                    "displacement": geom_payload["displacement"].detach().clone(),
+                    "fields": {name: value.detach().clone() for name, value in geom_payload["fields"].items()},
+                    "diagnostics": dict(geom_payload["diagnostics"]),
+                }
             if row["Z"] > best_Z:
                 best_Z = float(row["Z"])
                 best_iter = int(iteration)
@@ -315,6 +365,7 @@ def run_single_stage_b_case(
                     "perturbed": perturbed.detach().clone(),
                     "displacement": geom_payload["displacement"].detach().clone(),
                     "fields": {name: value.detach().clone() for name, value in geom_payload["fields"].items()},
+                    "diagnostics": dict(geom_payload["diagnostics"]),
                 }
     except Exception as error:
         failures.append({"error": repr(error), "layer_name": layer_name, "prompt": prompt, "image_id": image_row["image_id"]})
@@ -323,8 +374,20 @@ def run_single_stage_b_case(
 
     write_csv(history_path, rows)
 
+    final_source = "last_iteration"
+    selected_row: dict[str, Any] | None = None
     with torch.no_grad():
-        final_perturbed, final_geom_payload = geometry(image_tensor)
+        if select_valid and use_best_valid_for_final and best_valid_payload is not None:
+            final_source = "best_valid_checkpoint"
+            selected_row = best_valid_row
+            final_perturbed = best_valid_payload["perturbed"]
+            final_geom_payload = {
+                "displacement": best_valid_payload["displacement"],
+                "fields": best_valid_payload["fields"],
+                "diagnostics": best_valid_payload["diagnostics"],
+            }
+        else:
+            final_perturbed, final_geom_payload = geometry(image_tensor)
         final_pooled = capture_pooled(backend, final_perturbed, prompt, int(config.timestep_index), layer_name)
         final_cosine = F.cosine_similarity(original_ref.float(), final_pooled.float(), dim=1).mean()
         final_Z = float((1.0 - final_cosine).detach().cpu())
@@ -383,6 +446,8 @@ def run_single_stage_b_case(
 
     initial_Z = float(rows[0]["Z"]) if rows else float("nan")
     final_row = rows[-1] if rows else {}
+    final_input_mse = float(mse(final_perturbed, image_tensor).detach().cpu())
+    final_loss_value = -final_Z + float(config.input_preservation_weight) * final_input_mse
     summary = {
         "status": "done",
         "layer_name": layer_name,
@@ -395,14 +460,28 @@ def run_single_stage_b_case(
         "seed": int(config.seed),
         "initial_Z": initial_Z,
         "final_Z": final_Z,
+        "final_source": final_source,
+        "checkpoint_selection_enabled": bool(select_valid),
+        "selected_checkpoint_iter": int(best_valid_iter) if final_source == "best_valid_checkpoint" else int(config.iterations),
+        "selected_checkpoint_score": safe_float(best_valid_score) if final_source == "best_valid_checkpoint" else float("nan"),
+        "selected_checkpoint_input_ssim": safe_float((selected_row or {}).get("input_ssim")),
+        "selected_checkpoint_input_psnr": safe_float((selected_row or {}).get("input_psnr")),
+        "selected_checkpoint_max_disp_px": safe_float((selected_row or {}).get("combined_max_disp_px")),
+        "input_preservation_weight": float(config.input_preservation_weight),
         "logged_final_Z": safe_float(final_row.get("Z")),
         "Z_increase": final_Z - initial_Z,
         "best_Z": best_Z,
         "best_iter": best_iter,
-        "final_loss": -final_Z,
+        "best_valid_Z": safe_float((best_valid_row or {}).get("Z")),
+        "best_valid_iter": int(best_valid_iter),
+        "best_valid_score": safe_float(best_valid_score) if best_valid_row is not None else float("nan"),
+        "best_valid_input_ssim": safe_float((best_valid_row or {}).get("input_ssim")),
+        "best_valid_input_psnr": safe_float((best_valid_row or {}).get("input_psnr")),
+        "best_valid_max_disp_px": safe_float((best_valid_row or {}).get("combined_max_disp_px")),
+        "final_loss": final_loss_value,
         "final_input_psnr": psnr(final_perturbed, image_tensor),
         "final_input_ssim": ssim_global(final_perturbed, image_tensor),
-        "final_input_mse": float(mse(final_perturbed, image_tensor).detach().cpu()),
+        "final_input_mse": final_input_mse,
         "final_input_l2": tensor_l2(final_perturbed, image_tensor),
         "final_combined_mean_disp_px": safe_float(final_geom_payload["diagnostics"].get("combined_mean_disp_px")),
         "final_combined_p95_disp_px": safe_float(final_geom_payload["diagnostics"].get("combined_p95_disp_px")),
@@ -428,6 +507,10 @@ def run_single_stage_b_case(
             {
                 "best_iter": best_iter,
                 "best_Z": best_Z,
+                "best_valid_iter": best_valid_iter,
+                "best_valid_Z": safe_float((best_valid_row or {}).get("Z")),
+                "best_valid_score": safe_float(best_valid_score) if best_valid_row is not None else float("nan"),
+                "final_source": final_source,
                 "note": "Best tensors are not saved to avoid committing large checkpoint artifacts.",
             },
         )
@@ -473,6 +556,14 @@ def write_stage_b_report(summaries: list[dict[str, Any]], output_dir: Path) -> P
     output_dir.mkdir(parents=True, exist_ok=True)
     sorted_rows = sorted(summaries, key=lambda row: safe_float(row.get("Z_increase")), reverse=True)
     selected_layers = sorted({row["layer_name"] for row in sorted_rows})
+    preservation_weights = sorted({safe_float(row.get("input_preservation_weight"), 0.0) for row in sorted_rows})
+    uses_preservation = any(weight > 0.0 for weight in preservation_weights)
+    uses_checkpoint_selection = any(bool(row.get("checkpoint_selection_enabled")) for row in sorted_rows)
+    loss_line = (
+        "- Loss: `loss = -Z + input_preservation_weight * MSE(perturbed, original)`"
+        if uses_preservation
+        else "- Loss: `loss = -Z`"
+    )
     lines = [
         "# Stage B targeted layer smoke report",
         "",
@@ -486,20 +577,23 @@ def write_stage_b_report(summaries: list[dict[str, Any]], output_dir: Path) -> P
         "",
         f"- Runs completed: {len(sorted_rows)}",
         "- Objective: `Z = 1 - cosine_similarity(pool(layer(original)), pool(layer(perturbed)))`",
-        "- Loss: `loss = -Z`",
+        loss_line,
+        f"- Input preservation weights observed: `{', '.join(f'{w:g}' for w in preservation_weights)}`",
+        f"- Best-valid checkpoint selection: `{'enabled' if uses_checkpoint_selection else 'disabled'}`",
         "- Trainable values: geometry parameters only",
         "",
         "## Top runs by Z increase",
         "",
-        "| layer | image | prompt | initial Z | final Z | Z increase | input SSIM | max disp px | output SSIM |",
-        "|---|---:|---|---:|---:|---:|---:|---:|---:|",
+        "| layer | image | prompt | source | initial Z | final Z | Z increase | input SSIM | max disp px | output SSIM |",
+        "|---|---:|---|---|---:|---:|---:|---:|---:|---:|",
     ]
     for row in sorted_rows[:20]:
         lines.append(
-            "| {layer} | {image} | {prompt} | {initial:.6g} | {final:.6g} | {inc:.6g} | {ssim:.4g} | {disp:.4g} | {out_ssim:.4g} |".format(
+            "| {layer} | {image} | {prompt} | {source} | {initial:.6g} | {final:.6g} | {inc:.6g} | {ssim:.4g} | {disp:.4g} | {out_ssim:.4g} |".format(
                 layer=row.get("layer_name", ""),
                 image=row.get("image_id", ""),
                 prompt=row.get("prompt", ""),
+                source=row.get("final_source", "last_iteration"),
                 initial=safe_float(row.get("initial_Z")),
                 final=safe_float(row.get("final_Z")),
                 inc=safe_float(row.get("Z_increase")),
@@ -513,7 +607,7 @@ def write_stage_b_report(summaries: list[dict[str, Any]], output_dir: Path) -> P
             "",
             "## Decision note",
             "",
-            "Use this smoke only as Gate 4 evidence. Proceed to a 150-iteration run only if Z increases without numerical failure and the geometry diagnostics remain acceptable.",
+            "Use this run as targeted Stage-B evidence. Treat final images as candidates only if Z increases, input preservation remains visually acceptable, and final edited outputs show a real visible edit change rather than just metric movement.",
             "",
         ]
     )
