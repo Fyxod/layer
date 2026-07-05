@@ -1,0 +1,90 @@
+{
+  "config": {
+    "final_edit_guidance_scale": 7.5,
+    "final_edit_image_guidance_scale": 1.5,
+    "final_edit_num_inference_steps": 20,
+    "final_edit_seed": 1234,
+    "generate_final_edits": true,
+    "geometry": {
+      "components": {
+        "dct": {
+          "enabled": true
+        },
+        "delaunay": {
+          "enabled": true
+        },
+        "fft_phase": {
+          "enabled": true
+        },
+        "rolling": {
+          "enabled": true
+        },
+        "tps": {
+          "enabled": true
+        }
+      },
+      "init": "small_random",
+      "init_fraction": 0.05,
+      "limits": {
+        "dct_px_limit": 4.1,
+        "delaunay_px_limit": 5.1,
+        "fft_phase_limit_rad": 3.141592653589793,
+        "rolling_px_limit": 4.6,
+        "tps_px_limit": 3.6
+      },
+      "max_combined_disp_px": 8.0,
+      "sizes": {
+        "dct_size": 4,
+        "delaunay_size": 5,
+        "edge_falloff_px": 16.0,
+        "fft_phase_size": 8,
+        "tps_size": 5
+      }
+    },
+    "image_ids": [
+      "barack_obama_01",
+      "joe_biden_01",
+      "michelle_obama_01",
+      "kamala_harris_01"
+    ],
+    "iterations": 400,
+    "layers": [
+      "unet.conv_in",
+      "vae_image_latent",
+      "unet.mid_block",
+      "unet.up_blocks.0"
+    ],
+    "learning_rate": 0.03,
+    "max_cases": 4,
+    "prompts": [
+      "add headphones",
+      "add black sunglasses"
+    ],
+    "seed": 1234,
+    "timestep_index": 6
+  },
+  "image_row": {
+    "identity_id": "joe_biden",
+    "image_id": "joe_biden_01",
+    "image_path": "/home/interns/Desktop/layer/identity_layers/datasets/wikimedia_identity_probe/images/joe_biden/joe_biden_01.jpg",
+    "notes": "free_media_resized_512_no_face_alignment",
+    "source": "wikimedia_commons",
+    "split": "probe"
+  },
+  "layer_name": "unet.mid_block",
+  "objective": "Z = 1 - cosine_similarity(pool(layer(original)), pool(layer(perturbed))); loss = -Z",
+  "package_versions": {
+    "accelerate": "1.14.0",
+    "cuda_available": true,
+    "cuda_version": "12.1",
+    "diffusers": "0.38.0",
+    "git_commit": "b2a7ab1fdef49944379118b24de6dda36c2f24cd",
+    "gpu_name": "NVIDIA RTX A6000",
+    "matplotlib": "3.10.9",
+    "numpy": "2.2.6",
+    "pillow": "12.2.0",
+    "torch": "2.5.1+cu121",
+    "transformers": "5.12.1"
+  },
+  "prompt": "add black sunglasses"
+}
