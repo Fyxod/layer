@@ -1,0 +1,41 @@
+{
+  "graph_paths": [
+    "/home/interns/Desktop/layer/identity_layers/outputs/gradient_scan/gradient_norm_by_layer.png",
+    "/home/interns/Desktop/layer/identity_layers/outputs/gradient_scan/short_step_Z_curves.png"
+  ],
+  "layers_tested": [
+    "vae_image_latent",
+    "unet.conv_in",
+    "unet.up_blocks.0",
+    "unet.mid_block",
+    "unet.down_blocks.0.attentions.0.transformer_blocks.0.attn2.to_out.0"
+  ],
+  "note": "This is a short gradient sanity scan, not a full geometry attack.",
+  "num_failures": 0,
+  "num_rows": 90,
+  "prompt": "add black sunglasses",
+  "selected_layers": [
+    {
+      "finite_all_rows": true,
+      "layer_name": "vae_image_latent",
+      "mean_Z_increase": 0.001209576924641927,
+      "mean_final_Z": 0.0023552775382995605,
+      "mean_final_total_grad_norm": 0.0004485903461141318,
+      "mean_initial_Z": 0.0011457006136576335,
+      "num_cases": 3,
+      "status": "ok"
+    },
+    {
+      "finite_all_rows": true,
+      "layer_name": "unet.conv_in",
+      "mean_Z_increase": 0.0009491443634033203,
+      "mean_final_Z": 0.0031431118647257486,
+      "mean_final_total_grad_norm": 0.00047768492630390893,
+      "mean_initial_Z": 0.0021939675013224282,
+      "num_cases": 3,
+      "status": "ok"
+    }
+  ],
+  "steps": 5,
+  "timestep_index": 6
+}

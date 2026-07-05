@@ -1,0 +1,2 @@
+status,reason,note
+not_computed,ArcFace embeddings were not provided/available for this baseline run.,"ArcFace is reserved as an external evaluation reference, not an Instruct objective."

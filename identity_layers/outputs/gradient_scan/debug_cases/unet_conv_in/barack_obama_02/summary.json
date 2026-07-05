@@ -1,0 +1,7 @@
+{
+  "Z_increase": 0.0015488862991333008,
+  "final_Z": 0.003481626510620117,
+  "image_id": "barack_obama_02",
+  "initial_Z": 0.0019327402114868164,
+  "layer_name": "unet.conv_in"
+}
