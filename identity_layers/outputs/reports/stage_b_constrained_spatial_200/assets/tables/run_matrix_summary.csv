@@ -1,0 +1,2 @@
+layers,prompts,images,runs,iterations,layer_names,prompt_names
+1,2,4,8,200,unet.conv_in,"add black sunglasses, add headphones"
