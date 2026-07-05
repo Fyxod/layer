@@ -1,7 +1,47 @@
 {
-  "arcface_status": "not_computed",
+  "arcface_architecture": "iresnet100",
+  "arcface_channel_order": "rgb",
+  "arcface_checkpoint_filename": "iresnet100.pth",
+  "arcface_checkpoint_path": "/home/interns/Desktop/face/models/arcface/iresnet100.pth",
+  "arcface_checkpoint_sha256": "a566a62357f0c55b679d9ff2f022a294486568be0c00665d39029d0e46a8109b",
+  "arcface_checkpoint_source": "user_provided_local_checkpoint",
+  "arcface_device": "cuda",
+  "arcface_embedding_dimension": 512,
+  "arcface_embedding_normalization": "l2",
+  "arcface_face_repo": "/home/interns/Desktop/face",
+  "arcface_fp16": false,
+  "arcface_input_size": 112,
+  "arcface_normalization": "minus_one_to_one",
+  "arcface_num_vectors": 45,
+  "arcface_status": "computed",
+  "architecture": "iresnet100",
   "graph_path": "/home/interns/Desktop/layer/identity_layers/outputs/baseline_comparison/baseline_comparison.png",
-  "num_baselines": 19,
+  "loaded_state_entries": 901,
+  "missing_state_entries": [
+    "layer1.0.downsample.0.weight",
+    "layer1.0.downsample.0.bias",
+    "layer1.0.downsample.0.running_mean",
+    "layer1.0.downsample.0.running_var",
+    "layer1.0.downsample.1.weight",
+    "layer2.0.downsample.0.weight",
+    "layer2.0.downsample.0.bias",
+    "layer2.0.downsample.0.running_mean",
+    "layer2.0.downsample.0.running_var",
+    "layer2.0.downsample.1.weight",
+    "layer3.0.downsample.0.weight",
+    "layer3.0.downsample.0.bias",
+    "layer3.0.downsample.0.running_mean",
+    "layer3.0.downsample.0.running_var",
+    "layer3.0.downsample.1.weight",
+    "layer4.0.downsample.0.weight",
+    "layer4.0.downsample.0.bias",
+    "layer4.0.downsample.0.running_mean",
+    "layer4.0.downsample.0.running_var",
+    "layer4.0.downsample.1.weight"
+  ],
+  "num_baselines": 20,
+  "parameter_count": 65155264,
+  "state_dict_match_ratio": 0.9740540540540541,
   "top_baselines": [
     {
       "baseline_group": "raw_image",
@@ -53,6 +93,18 @@
       "source_layer_rank_score": "0.5786033863276637",
       "source_mean_identity_auc": "0.5623280423280423",
       "source_mean_identity_separation": "0.01627534399962141"
+    },
+    {
+      "baseline_group": "arcface_external_reference",
+      "baseline_name": "arcface_iresnet100",
+      "identity_auc": 0.6183656672545561,
+      "identity_separation": 0.015469775439570205,
+      "mean_different_identity_cosine_distance": 0.147942209748364,
+      "mean_different_identity_euclidean_distance": 0.5400352415269014,
+      "mean_same_identity_cosine_distance": 0.1324724343087938,
+      "mean_same_identity_euclidean_distance": 0.509693071577284,
+      "num_pair_scores": 990,
+      "num_vectors": 45
     },
     {
       "baseline_group": "selected_instruct_layer",
@@ -255,5 +307,7 @@
       "source_mean_identity_auc": "0.5473941798941799",
       "source_mean_identity_separation": "7.302144532481201e-06"
     }
-  ]
+  ],
+  "trainable_parameter_count": 0,
+  "unexpected_state_entries": []
 }
