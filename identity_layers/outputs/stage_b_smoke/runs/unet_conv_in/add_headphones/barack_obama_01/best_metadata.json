@@ -1,0 +1,5 @@
+{
+  "best_Z": 0.005398750305175781,
+  "best_iter": 42,
+  "note": "Best tensors are not saved to avoid committing large checkpoint artifacts."
+}
